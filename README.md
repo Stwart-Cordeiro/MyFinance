@@ -1,2 +1,2 @@
 # MyFinance
-Projeto de Atualizacao do MyFinances
+Projeto de Atualização do MyFinances
