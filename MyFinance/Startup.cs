@@ -1,4 +1,5 @@
 using Entities.Entities;
+using HelpConfig;
 using Infrastructure.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +35,8 @@ namespace MyFinance
             services.AddDefaultIdentity<Usuario>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<MyFinancesContext>();
             services.AddRazorPages();
+
+            HelpIOC.ConfigureSingleton(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

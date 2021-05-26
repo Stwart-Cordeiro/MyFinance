@@ -19,7 +19,9 @@ namespace UnitTesteInfrastructure
 
         public UnitTestConta()
         {
-            _applicationServiceConta = new ApplicationServiceConta(new ServiceConta(new RepositoryConta(new MyFinancesContext(new DbContextOptions<MyFinancesContext>()))));
+            _applicationServiceConta = new ApplicationServiceConta(
+                new ServiceConta(
+                    new RepositoryConta(new MyFinancesContext(new DbContextOptions<MyFinancesContext>()))));
         }
 
         [TestMethod]
@@ -46,5 +48,80 @@ namespace UnitTesteInfrastructure
                 Assert.Fail();
             }
         }
+
+        [TestMethod]
+        public void AddContaNoNomeTask()
+        {
+            try
+            {
+                var contaSucesso = new Contas
+                {
+                    IdConta = Guid.NewGuid().ToString(),
+                    Status = EnumStatus.Ativado,
+                    TipoDespesas = EnumTipoDespesas.Receita,
+                    UserId = Guid.NewGuid().ToString(),
+                    DataCadastro = DateTime.Now.Date
+                };
+
+                Assert.IsFalse(contaSucesso.Notificacoes.Any());
+
+                _applicationServiceConta.Add(contaSucesso);
+
+            }
+            catch (Exception erroException)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void UpdateContaTask()
+        {
+            try
+            {
+                var contaSucesso = new Contas
+                {
+                    IdConta = Guid.NewGuid().ToString(),
+                    Nome = "Conta Teste update",
+                    Status = EnumStatus.Desativado,
+                    TipoDespesas = EnumTipoDespesas.Despesas,
+                    UserId = Guid.NewGuid().ToString(),
+                };
+
+                _applicationServiceConta.Update(contaSucesso);
+
+                Assert.IsFalse(contaSucesso.Notificacoes.Any());
+            }
+            catch (Exception erroException)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod]
+        public void DeleteContaTask()
+        {
+            try
+            {
+                var contaSucesso = new Contas
+                {
+                    IdConta = Guid.NewGuid().ToString(),
+                    Nome = "Conta Teste",
+                    Status = EnumStatus.Ativado,
+                    TipoDespesas = EnumTipoDespesas.Receita,
+                    UserId = Guid.NewGuid().ToString(),
+                    DataCadastro = DateTime.Now.Date
+                };
+
+                _applicationServiceConta.Delete(contaSucesso);
+
+                Assert.IsFalse(contaSucesso.Notificacoes.Any());
+            }
+            catch (Exception erroException)
+            {
+                Assert.Fail();
+            }
+        }
+
     }
 }
