@@ -8,6 +8,7 @@ namespace Entities.Entities
 {
     public class Contas : Notifies
     {
+        [Key]
         public string IdConta { get; set; }
 
         [Column(TypeName = "varchar(50)")]

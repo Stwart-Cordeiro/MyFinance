@@ -36,7 +36,7 @@ namespace MyFinance
                 .AddEntityFrameworkStores<MyFinancesContext>();
             services.AddRazorPages();
 
-            HelpIOC.ConfigureSingleton(services);
+            //HelpIOC.ConfigureSingleton(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

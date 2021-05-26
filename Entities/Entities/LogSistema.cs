@@ -7,6 +7,7 @@ namespace Entities.Entities
     public class LogSistema
     {
         [Display(Name = "Código")]
+        [Key]
         public string IdLogSistema { get; set; }
 
         [Display(Name = "Json Informação")]
