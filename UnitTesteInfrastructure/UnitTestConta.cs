@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using Application.Interfaces;
 using Application.Service;
-using Domain.Core.Interfaces.Repositorys;
-using Domain.Core.Interfaces.Services;
 using Domain.Services.Services;
 using Entities.Entities;
 using Entities.Entities.Enums;
+using Infrastructure.Configuration;
 using Infrastructure.Repository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTesteInfrastructure
@@ -18,9 +17,9 @@ namespace UnitTesteInfrastructure
 
         private readonly ApplicationServiceConta _applicationServiceConta;
 
-        public UnitTestConta(ApplicationServiceConta applicationServiceConta)
+        public UnitTestConta()
         {
-            _applicationServiceConta = applicationServiceConta;
+            _applicationServiceConta = new ApplicationServiceConta(new ServiceConta(new RepositoryConta(new MyFinancesContext(new DbContextOptions<MyFinancesContext>()))));
         }
 
         [TestMethod]
