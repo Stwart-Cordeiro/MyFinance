@@ -5,7 +5,7 @@ using Domain.Core.Interfaces.Services;
 
 namespace Domain.Services.Services
 {
-    public abstract class ServiceBase<TEntity> : IDisposable, IServiceBase<TEntity> where TEntity: class
+    public abstract class ServiceBase<TEntity> : IServiceBase<TEntity>, IDisposable where TEntity: class
     {
         private readonly IRepositoryBase<TEntity> _repository;
 

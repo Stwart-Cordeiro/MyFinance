@@ -1,6 +1,5 @@
 ﻿using Application.Interfaces;
 using Application.Service;
-using Autofac;
 using Domain.Core.Interfaces.Repositorys;
 using Domain.Core.Interfaces.Services;
 using Domain.Services.Services;
@@ -11,33 +10,20 @@ namespace HelpConfig
 {
     public static class HelpIOC
     {
-        public static void Load(ContainerBuilder builder)
+
+        public static void ConfigureSingleton(IServiceCollection services)
         {
-            #region Registra IOC
+            // INTERFACE E REPOSITORIO
+            services.AddScoped<IRepositoryConta, RepositoryConta>();
+            services.AddScoped<IRepositoryLogSistema, RepositoryLogSistema>();
 
-            #region IOC Application
+            // INTERFACE APLICAÇÃO
+            services.AddScoped<IApplicationServiceConta, ApplicationServiceConta>();
+            services.AddScoped<IApplicationServiceLogSistema, ApplicationServiceLogSistema>();
 
-            builder.RegisterType<ApplicationServiceConta>().As<IApplicationServiceConta>();
-            builder.RegisterType<ApplicationServiceLogSistema>().As<IApplicationServiceLogSistema>();
-
-            #endregion
-
-            #region IOC Services
-
-            builder.RegisterType<ServiceConta>().As<IServiceConta>();
-            builder.RegisterType<ServiceLogSistema>().As<IServiceLogSistema>();
-
-            #endregion
-
-            #region IOC Repositorys MySQL
-
-            builder.RegisterType<RepositoryConta>().As<IRepositoryConta>();
-            builder.RegisterType<RepositoryLogSistema>().As<IRepositoryLogSistema>();
-
-            #endregion
-
-            #endregion
-
+            // SERVIÇO DOMINIO
+            services.AddScoped<IServiceConta, ServiceConta>();
+            services.AddScoped<IServiceLogSistema, ServiceLogSistema>();
         }
     }
 }

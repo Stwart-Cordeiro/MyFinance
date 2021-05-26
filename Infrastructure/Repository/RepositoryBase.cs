@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
 {
-    public abstract class RepositoryBase<TEntity> : IDisposable,IRepositoryBase<TEntity> where TEntity: class
+    public abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity>,IDisposable where TEntity: class
     {
 
         private readonly MyFinancesContext _myFinancesContext;

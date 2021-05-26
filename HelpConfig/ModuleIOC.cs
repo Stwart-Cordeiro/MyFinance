@@ -8,7 +8,7 @@ namespace HelpConfig
         {
             #region Carrega IOC
 
-            HelpIOC.Load(builder);
+            //HelpIOC.Load(builder);
 
             #endregion
         }
