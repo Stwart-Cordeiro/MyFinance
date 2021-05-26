@@ -9,5 +9,6 @@ namespace Domain.Core.Interfaces.Services
         void Delete(TEntity entity);
         TEntity GetById(string id);
         IEnumerable<TEntity> GetAll();
+        void Dispose();
     }
 }

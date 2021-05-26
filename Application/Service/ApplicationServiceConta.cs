@@ -27,27 +27,31 @@ namespace Application.Service
 
         public void Update(Contas conta)
         {
-            throw new System.NotImplementedException();
+            var validaNome = conta.ValidarPropriedadeString(conta.Nome, "Nome");
+
+            if (!validaNome) return;
+            conta.DataAlteracao = DateTime.Now;
+            _serviceConta.Update(conta);
         }
 
         public void Delete(Contas conta)
         {
-            throw new System.NotImplementedException();
+            _serviceConta.Delete(conta);
         }
 
         public Contas GetById(string id)
         {
-            throw new System.NotImplementedException();
+            return _serviceConta.GetById(id);
         }
 
         public IEnumerable<Contas> GetAll()
         {
-            throw new System.NotImplementedException();
+            return _serviceConta.GetAll();
         }
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
+            _serviceConta.Dispose();
         }
     }
 }
