@@ -1,4 +1,5 @@
-﻿using Domain.Core.Interfaces.Repositorys;
+﻿using System.Collections.Generic;
+using Domain.Core.Interfaces.Repositorys;
 using Entities.Entities;
 using Infrastructure.Configuration;
 
@@ -12,6 +13,10 @@ namespace Infrastructure.Repository
         {
             _myFinancesContext = myFinancesContext;
         }
-        
+
+        //public IEnumerable<Contas> GetAll()
+        //{
+        //    throw new System.NotImplementedException();
+        //}
     }
 }
