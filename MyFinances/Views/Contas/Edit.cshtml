@@ -2,12 +2,10 @@
 @model Entities.Entities.Contas
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar";
 }
 
-<h1>Edit</h1>
-
-<h4>Contas</h4>
+<h4>Editar - Conta</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -67,34 +65,34 @@
                     if (Model.TipoDespesas != EnumTipoDespesas.Receita)
                     {
                         <div class="form-check form-check-inline">
-                        <label>
-                            <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
-                                <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Receita" unchecked/>
-                                Receita
-                            </span>
-                        </label>
-
-                        <label>
-                            <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
-                                <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Despesas" checked/>
-                                Despesas
-                            </span>
-                        </label>
-                    </div>
-                    }
-                    else
-                    {
-                        <div class="form-check form-check-inline">
                             <label>
                                 <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
-                                    <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Receita" checked/>
+                                    <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Receita" unchecked />
                                     Receita
                                 </span>
                             </label>
 
                             <label>
                                 <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
-                                    <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Despesas" unchecked/>
+                                    <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Despesas" checked />
+                                    Despesas
+                                </span>
+                            </label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-check form-check-inline">
+                            <label>
+                                <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
+                                    <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Receita" checked />
+                                    Receita
+                                </span>
+                            </label>
+
+                            <label>
+                                <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
+                                    <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Despesas" unchecked />
                                     Despesas
                                 </span>
                             </label>
@@ -103,14 +101,11 @@
                 }
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Salvar" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-primary">Voltar</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

@@ -22,14 +22,14 @@
                     <label>
                         <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
                             <input type="radio" class="form-check-input" asp-for="Status" value="@EnumStatus.Ativado"  unchecked />
-                             Ativado
+                            Ativado
                         </span>
                     </label>
-
+                    <br/>
                     <label>
                         <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
                             <input type="radio" class="form-check-input" asp-for="Status" value="@EnumStatus.Desativado" checked />
-                             Desativar
+                            Desativar
                         </span>
                     </label>
                 </div>
@@ -40,28 +40,27 @@
                     <label>
                         <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
                             <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Receita" unchecked />
-                             Receita
+                            Receita
                         </span>
                     </label>
 
                     <label>
                         <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
                             <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Despesas" checked />
-                             Despesas
+                            Despesas
                         </span>
                     </label>
                 </div>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Criar" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-primary">Voltar</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Voltar</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
