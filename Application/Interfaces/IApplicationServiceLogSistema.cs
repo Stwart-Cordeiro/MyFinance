@@ -7,7 +7,7 @@ namespace Application.Interfaces
     {
         void Add(LogSistema logSistema);
         LogSistema GetById(string id);
-        IEnumerable<LogSistema> GetAll();
+        IEnumerable<LogSistema> GetAll(string userId);
         void Dispose();
     }
 }

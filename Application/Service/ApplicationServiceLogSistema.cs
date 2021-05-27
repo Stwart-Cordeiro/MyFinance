@@ -19,9 +19,9 @@ namespace Application.Service
             _serviceLogSistema.Add(logSistema);
         }
 
-        public IEnumerable<LogSistema> GetAll()
+        public IEnumerable<LogSistema> GetAll(string userId)
         {
-            return _serviceLogSistema.GetAll();
+            return _serviceLogSistema.GetAll(userId);
         }
 
         public LogSistema GetById(string id)
