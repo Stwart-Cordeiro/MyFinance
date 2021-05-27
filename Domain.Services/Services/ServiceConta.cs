@@ -18,5 +18,10 @@ namespace Domain.Services.Services
         {
             return _repositoryConta.GetAll(userId);
         }
+
+        public Contas GetById(string id)
+        {
+            return _repositoryConta.GetById(id);
+        }
     }
 }

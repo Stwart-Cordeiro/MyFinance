@@ -6,5 +6,7 @@ namespace Domain.Core.Interfaces.Services
     public interface IServiceConta : IServiceBase<Contas>
     {
         public IEnumerable<Contas> GetAll(string userId);
+
+        public Contas GetById(string id);
     }
 }
