@@ -1,6 +1,10 @@
-﻿using Application.Interfaces;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Entities.Entities;
+using Entities.Entities.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -21,9 +25,11 @@ namespace MyFinances.Controllers
         }
 
         // GET: Contas
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var myFinancesContext = _service.GetAll();
+            var usuario = await _userManager.GetUserAsync(User);
+
+            var myFinancesContext = _service.GetAll(usuario.Id);
             return View(myFinancesContext);
         }
 
@@ -47,28 +53,48 @@ namespace MyFinances.Controllers
         //}
 
         // GET: Contas/Create
-        //public IActionResult Create()
-        //{
-        //    ViewData["UserId"] = new SelectList(_context.Usuario, "Id", "Id");
-        //    return View();
-        //}
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         // POST: Contas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("IdConta,Nome,Status,TipoDespesas,UserId,DataCadastro,DataAlteracao")] Contas contas)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(contas);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["UserId"] = new SelectList(_context.Usuario, "Id", "Id", contas.UserId);
-        //    return View(contas);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Contas contas)
+        {
+            try
+            {
+                var usurio = await _userManager.GetUserAsync(User);
+                contas.IdConta = Guid.NewGuid().ToString();
+                contas.UserId = usurio.Id;
+
+                _service.Add(contas);
+
+                if (contas.Notificacoes.Any())
+                {
+                    foreach (var item in contas.Notificacoes)
+                    {
+                        ModelState.AddModelError(item.NomePropriedade,item.Mensagem);
+                    }
+
+                    return View(contas);
+
+                }
+
+                await LogSistemaTask(EnumTipoLog.Informativo, contas);
+            }
+            catch (Exception erro)
+            {
+                await LogSistemaTask(EnumTipoLog.Erro, erro);
+
+                return View(contas);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
 
         // GET: Contas/Edit/5
         //public async Task<IActionResult> Edit(string id)

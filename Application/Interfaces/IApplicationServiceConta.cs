@@ -9,7 +9,7 @@ namespace Application.Interfaces
         void Update(Contas conta);
         void Delete(Contas conta);
         Contas GetById(string id);
-        IEnumerable<Contas> GetAll();
+        IEnumerable<Contas> GetAll(string userId);
         void Dispose();
     }
 }

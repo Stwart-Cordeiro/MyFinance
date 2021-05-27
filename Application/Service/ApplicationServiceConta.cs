@@ -44,9 +44,9 @@ namespace Application.Service
             return _serviceConta.GetById(id);
         }
 
-        public IEnumerable<Contas> GetAll()
+        public IEnumerable<Contas> GetAll(string userId)
         {
-            return _serviceConta.GetAll();
+            return _serviceConta.GetAll(userId);
         }
 
         public void Dispose()

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Domain.Core.Interfaces.Repositorys;
 using Entities.Entities;
 using Infrastructure.Configuration;
@@ -14,9 +15,9 @@ namespace Infrastructure.Repository
             _myFinancesContext = myFinancesContext;
         }
 
-        //public IEnumerable<Contas> GetAll()
-        //{
-        //    throw new System.NotImplementedException();
-        //}
+        public IEnumerable<Contas> GetAll(string userId)
+        {
+            return _myFinancesContext.Conta.Where(x => x.UserId == userId);
+        }
     }
 }
