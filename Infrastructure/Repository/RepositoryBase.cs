@@ -26,7 +26,7 @@ namespace Infrastructure.Repository
             }
             catch (Exception erro)
             {
-                
+                throw erro;
             }
         }
 
@@ -39,7 +39,7 @@ namespace Infrastructure.Repository
             }
             catch (Exception erro)
             {
-
+                throw erro;
             }
         }
 
@@ -52,7 +52,7 @@ namespace Infrastructure.Repository
             }
             catch (Exception erro)
             {
-
+                throw erro;
             }
         }
 

@@ -14,6 +14,9 @@ namespace Entities.Entities
         [Column(TypeName = "varchar(50)")]
         public string Nome { get; set; }
 
+        [Column(TypeName = "decimal(9,2)")]
+        public decimal Valor { get; set; }
+
         [Display(Name = "Status")]
         public EnumStatus Status { get; set; }
 
