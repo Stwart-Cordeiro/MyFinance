@@ -16,14 +16,17 @@ namespace HelpConfig
             // INTERFACE E REPOSITORIO
             services.AddScoped<IRepositoryConta, RepositoryConta>();
             services.AddScoped<IRepositoryLogSistema, RepositoryLogSistema>();
+            services.AddScoped<IRepositoryPlanoConta, RepositoryPlanoConta>();
 
             // INTERFACE APLICAÇÃO
             services.AddScoped<IApplicationServiceConta, ApplicationServiceConta>();
             services.AddScoped<IApplicationServiceLogSistema, ApplicationServiceLogSistema>();
+            services.AddScoped<IApplicationServicePlanoConta, ApplicationServicePlanoConta>();
 
             // SERVIÇO DOMINIO
             services.AddScoped<IServiceConta, ServiceConta>();
             services.AddScoped<IServiceLogSistema, ServiceLogSistema>();
+            services.AddScoped<IServicePlanoConta, ServicePlanoConta>();
         }
     }
 }

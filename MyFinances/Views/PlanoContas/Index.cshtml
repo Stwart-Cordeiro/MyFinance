@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Entities.Entities.PlanoContas>
+
+@{
+    ViewData["Title"] = "Lista";
+}
+
+<h1>Lista</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Novo Plano de Conta</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoDespesas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Usuario)
+            </th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoDespesas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.UserName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdPlanoConta" class="btn btn-warning">Editar</a>
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.IdPlanoConta" class="btn btn-info">Detalhes</a>
+            </td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@item.IdPlanoConta" class="btn btn-danger">Deletar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

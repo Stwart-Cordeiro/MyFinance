@@ -33,6 +33,7 @@ namespace UnitTesteInfrastructure
                 {
                     IdConta = Guid.NewGuid().ToString(),
                     Nome = "Conta Teste",
+                    Valor = 100,
                     Status = EnumStatus.Ativado,
                     TipoDespesas = EnumTipoDespesas.Receita,
                     UserId = Guid.NewGuid().ToString(),

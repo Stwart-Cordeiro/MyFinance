@@ -12,28 +12,31 @@ using Microsoft.Extensions.Logging;
 namespace MyFinances.Controllers
 {
     [Authorize]
-    public class ContasController : BaseController
+    public class PlanoContasController : BaseController
     {
-        private readonly IApplicationServiceConta _service;
+
+        private readonly IApplicationServicePlanoConta _planoConta;
         private readonly UserManager<Usuario> _userManager;
 
-        public ContasController(IApplicationServiceConta service, UserManager<Usuario> userManager, ILogger<ContasController> logger, IApplicationServiceLogSistema logSistema)
-            : base(logger, userManager, logSistema)
+        public PlanoContasController(IApplicationServicePlanoConta planoConta, UserManager<Usuario> userManager, ILogger<PlanoContasController> logger, IApplicationServiceLogSistema logSistema)
+        : base(logger, userManager, logSistema)
         {
-            _service = service;
+            _planoConta = planoConta;
             _userManager = userManager;
         }
 
-        // GET: Contas
+
+        // GET: PlanoContas
         public async Task<IActionResult> Index()
         {
             var usuario = await _userManager.GetUserAsync(User);
 
-            var contas = _service.GetAll(usuario.Id);
-            return View(contas);
+            var planoConta = _planoConta.GetAll(usuario.Id);
+
+            return View(planoConta);
         }
 
-        // GET: Contas/Details/5
+        // GET: PlanoContas/Details/5
         public IActionResult Details(string id)
         {
             if (id == null)
@@ -41,59 +44,59 @@ namespace MyFinances.Controllers
                 return NotFound();
             }
 
-            var contas = _service.GetById(id);
+            var planoContas = _planoConta.GetById(id);
 
-            if (contas == null)
+            if (planoContas == null)
             {
                 return NotFound();
             }
 
-            return View(contas);
+            return View(planoContas);
         }
 
-        // GET: Contas/Create
+        // GET: PlanoContas/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Contas/Create
+        // POST: PlanoContas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Contas contas)
+        public async Task<IActionResult> Create(PlanoContas planoContas)
         {
             try
             {
                 var usuario = await _userManager.GetUserAsync(User);
-                contas.IdConta = Guid.NewGuid().ToString();
-                contas.UserId = usuario.Id;
 
-                _service.Add(contas);
+                planoContas.IdPlanoConta = Guid.NewGuid().ToString();
+                planoContas.UserId = usuario.Id;
 
-                if (contas.Notificacoes.Any())
+                _planoConta.Add(planoContas);
+
+                if (planoContas.Notificacoes.Any())
                 {
-                    foreach (var item in contas.Notificacoes)
+                    foreach (var item in planoContas.Notificacoes)
                     {
                         ModelState.AddModelError(item.NomePropriedade, item.Mensagem);
                     }
 
-                    return View(contas);
-
+                    return View(planoContas);
                 }
 
-                await LogSistemaTask(EnumTipoLog.Informativo, contas);
+                await LogSistemaTask(EnumTipoLog.Informativo, planoContas);
             }
             catch (Exception erro)
             {
                 await LogSistemaTask(EnumTipoLog.Erro, erro);
 
-                return View(contas);
+                return View(planoContas);
             }
 
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Contas/Edit/5
+        // GET: PlanoContas/Edit/5
         public IActionResult Edit(string id)
         {
             if (id == null)
@@ -101,54 +104,53 @@ namespace MyFinances.Controllers
                 return NotFound();
             }
 
-            var contas = _service.GetById(id);
+            var planoContas = _planoConta.GetById(id);
 
-            if (contas == null)
+            if (planoContas == null)
             {
                 return NotFound();
             }
 
-            return View(contas);
+            return View(planoContas);
         }
 
-        // POST: Contas/Edit/5
+        // POST: PlanoContas/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, Contas contas)
+        public async Task<IActionResult> Edit(string id, PlanoContas planoContas)
         {
-            if (id != contas.IdConta)
+            if (id != planoContas.IdPlanoConta)
             {
                 return NotFound();
             }
 
             try
             {
-                _service.Update(contas);
+                _planoConta.Update(planoContas);
 
-                if (contas.Notificacoes.Any())
+                if (planoContas.Notificacoes.Any())
                 {
-                    foreach (var item in contas.Notificacoes)
+                    foreach (var item in planoContas.Notificacoes)
                     {
-                        ModelState.AddModelError(item.NomePropriedade, item.Mensagem);
+                        ModelState.AddModelError(item.NomePropriedade,item.Mensagem);
                     }
 
-                    return View(contas);
-
+                    return View(planoContas);
                 }
 
-                await LogSistemaTask(EnumTipoLog.Informativo, contas);
+                await LogSistemaTask(EnumTipoLog.Informativo, planoContas);
             }
             catch (Exception erro)
             {
                 await LogSistemaTask(EnumTipoLog.Erro, erro);
 
-                return View(contas);
+                return View(planoContas);
             }
 
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Contas/Delete/5
+        // GET: PlanoContas/Delete/5
         public IActionResult Delete(string id)
         {
             if (id == null)
@@ -156,30 +158,28 @@ namespace MyFinances.Controllers
                 return NotFound();
             }
 
-            var contas = _service.GetById(id);
+            var planoContas = _planoConta.GetById(id);
 
-            if (contas == null)
+            if (planoContas == null)
             {
                 return NotFound();
             }
 
-            return View(contas);
+            return View(planoContas);
         }
 
-        // POST: Contas/Delete/5
+        // POST: PlanoContas/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-
             try
             {
-                var contas = _service.GetById(id);
+                var planoContas = _planoConta.GetById(id);
 
-                _service.Delete(contas);
+                _planoConta.Delete(planoContas);
 
-                await LogSistemaTask(EnumTipoLog.Informativo, contas);
-
+                await LogSistemaTask(EnumTipoLog.Informativo, planoContas);
             }
             catch (Exception erro)
             {
