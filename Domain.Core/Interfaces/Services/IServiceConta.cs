@@ -8,5 +8,8 @@ namespace Domain.Core.Interfaces.Services
         public IEnumerable<Contas> GetAll(string userId);
 
         public Contas GetById(string id);
+
+        public IEnumerable<Contas> GetAllAtivadas(string userId);
+        
     }
 }

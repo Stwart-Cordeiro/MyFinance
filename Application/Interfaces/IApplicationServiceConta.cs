@@ -10,6 +10,7 @@ namespace Application.Interfaces
         void Delete(Contas conta);
         Contas GetById(string id);
         IEnumerable<Contas> GetAll(string userId);
+        IEnumerable<Contas> GetAllAtivadas(string userId);
         void Dispose();
     }
 }

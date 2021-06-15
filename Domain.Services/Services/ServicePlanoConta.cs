@@ -25,5 +25,10 @@ namespace Domain.Services.Services
         {
             return _repositoryPlanoConta.GetById(id);
         }
+
+        public IEnumerable<PlanoContas> GetAllAtivadas(string userId)
+        {
+            return _repositoryPlanoConta.GetAllAtivadas(userId);
+        }
     }
 }

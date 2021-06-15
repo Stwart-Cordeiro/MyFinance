@@ -49,6 +49,11 @@ namespace Application.Service
             return _serviceConta.GetAll(userId);
         }
 
+        public IEnumerable<Contas> GetAllAtivadas(string userId)
+        {
+            return _serviceConta.GetAllAtivadas(userId);
+        }
+
         public void Dispose()
         {
             _serviceConta.Dispose();

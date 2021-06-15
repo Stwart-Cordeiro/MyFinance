@@ -15,6 +15,7 @@ namespace Infrastructure.Configuration
         public DbSet<Contas> Conta { get; set; }
         public DbSet<LogSistema> LogSistemas { get; set; }
         public DbSet<PlanoContas> PlanoConta { get; set; }
+        public DbSet<Transacoes> Transacao { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

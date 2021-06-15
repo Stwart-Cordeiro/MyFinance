@@ -8,5 +8,9 @@ namespace Domain.Core.Interfaces.Services
         public IEnumerable<PlanoContas> GetAll(string userId);
 
         public PlanoContas GetById(string id);
+
+        public IEnumerable<PlanoContas> GetAllAtivadas(string userId);
+
+        
     }
 }

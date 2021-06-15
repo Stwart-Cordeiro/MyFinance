@@ -2,6 +2,7 @@
 using System.Linq;
 using Domain.Core.Interfaces.Repositorys;
 using Entities.Entities;
+using Entities.Entities.Enums;
 using Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,5 +26,12 @@ namespace Infrastructure.Repository
         {
             return _myFinancesContext.PlanoConta.Include(p => p.Usuario).FirstOrDefault(x => x.IdPlanoConta == id);
         }
+
+        public IEnumerable<PlanoContas> GetAllAtivadas(string userId)
+        {
+            return _myFinancesContext.PlanoConta.Where(x => x.UserId == userId && x.Status == EnumStatus.Ativado);
+        }
+
+        
     }
 }

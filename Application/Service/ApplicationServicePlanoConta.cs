@@ -48,6 +48,11 @@ namespace Application.Service
             return _servicePlanoConta.GetAll(userId);
         }
 
+        public IEnumerable<PlanoContas> GetAllAtivadas(string userId)
+        {
+            return _servicePlanoConta.GetAllAtivadas(userId);
+        }
+
         public void Dispose()
         {
             _servicePlanoConta.Dispose();

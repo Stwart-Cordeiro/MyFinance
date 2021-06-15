@@ -8,5 +8,7 @@ namespace Domain.Core.Interfaces.Repositorys
         public IEnumerable<PlanoContas> GetAll(string userId);
 
         public PlanoContas GetById(string id);
+
+        public IEnumerable<PlanoContas> GetAllAtivadas(string userId);
     }
 }

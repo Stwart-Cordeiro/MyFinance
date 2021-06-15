@@ -1,0 +1,92 @@
+﻿@using Entities.Entities.Enums
+@model Entities.Entities.Transacoes
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+<h4>Editar - Transações</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdTransacoes" />
+            <input type="hidden" asp-for="UserId" />
+            <input type="hidden" asp-for="DataCadastro" />
+            <div class="form-group">
+                <label asp-for="DataTransacao" class="control-label"></label>
+                <input asp-for="DataTransacao" type="date" class="form-control" />
+                <span asp-validation-for="DataTransacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="TipoDespesas">Tipo Despesas: </label>
+                @{
+                    if (Model.TipoDespesas != EnumTipoDespesas.Receita)
+                    {
+                        <div class="form-check form-check-inline">
+                            <label>
+                                <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
+                                    <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Receita" unchecked />
+                                    Receita
+                                </span>
+                            </label>
+
+                            <label>
+                                <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
+                                    <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Despesas" checked />
+                                    Despesas
+                                </span>
+                            </label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-check form-check-inline">
+                            <label>
+                                <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
+                                    <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Receita" checked />
+                                    Receita
+                                </span>
+                            </label>
+
+                            <label>
+                                <span class="glyphicon glyphicon-hand-right" aria-hidden="true">
+                                    <input type="radio" class="form-check-input" asp-for="TipoDespesas" value="@EnumTipoDespesas.Despesas" unchecked />
+                                    Despesas
+                                </span>
+                            </label>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="form-group">
+                <label asp-for="Valor" class="control-label"></label>
+                <input asp-for="Valor" class="form-control" />
+                <span asp-validation-for="Valor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descricao" class="control-label"></label>
+                <textarea asp-for="Descricao" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContaId" class="control-label"></label>
+                <select asp-for="ContaId" class="form-control" asp-items="ViewBag.ContaId"></select>
+                <span asp-validation-for="ContaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanoContaId" class="control-label"></label>
+                <select asp-for="PlanoContaId" class="form-control" asp-items="ViewBag.PlanoContaId"></select>
+                <span asp-validation-for="PlanoContaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-primary">Voltar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
