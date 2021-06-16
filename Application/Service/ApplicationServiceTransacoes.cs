@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Application.Interfaces;
 using Domain.Core.Interfaces.Services;
 using Entities.Entities;
+using Entities.Entities.Enums;
 
 namespace Application.Service
 {
@@ -10,18 +11,35 @@ namespace Application.Service
     {
 
         private readonly IServiceTransacoes _serviceTransacoes;
+        private readonly IServiceConta _serviceConta;
 
-        public ApplicationServiceTransacoes(IServiceTransacoes serviceTransacoes)
+        public ApplicationServiceTransacoes(IServiceTransacoes serviceTransacoes, IServiceConta serviceConta)
         {
             _serviceTransacoes = serviceTransacoes;
+            _serviceConta = serviceConta;
         }
 
         public void Add(Transacoes transacoes)
         {
             var validaDescircao = transacoes.ValidarPropriedadeString(transacoes.Descricao, "Descrição");
             var validaValor = transacoes.ValidarPropriedadeDecimal(transacoes.Valor, "Valor");
-
+            
             if (!validaDescircao || !validaValor) return;
+            if (transacoes.Debito == true)
+            {
+                var conta = _serviceConta.GetById(transacoes.ContaId);
+
+                if (transacoes.TipoDespesas == EnumTipoDespesas.Receita)
+                {
+                    conta.Valor += transacoes.Valor;
+                }
+                else
+                {
+                    conta.Valor -= transacoes.Valor;
+                }
+
+                _serviceConta.Update(conta);
+            }
             transacoes.DataCadastro = DateTime.Now;
             _serviceTransacoes.Add(transacoes);
 

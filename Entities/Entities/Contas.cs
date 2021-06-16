@@ -15,6 +15,8 @@ namespace Entities.Entities
         public string Nome { get; set; }
 
         [Column(TypeName = "decimal(9,2)")]
+        [DataType(DataType.Currency)]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = true)]
         public decimal Valor { get; set; }
 
         [Display(Name = "Status")]

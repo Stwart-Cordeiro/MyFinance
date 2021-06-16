@@ -25,19 +25,21 @@ namespace Entities.Entities
         [Column(TypeName = "varchar(200)")]
         public string Descricao { get; set; }
         
-        [Display(Name = "Usuário")]
+        [Display(Name = "Conta")]
         [ForeignKey("Contas")]
         [Column(Order = 1)]
         public string ContaId { get; set; }
         public virtual Contas Contas { get; set; }
 
 
-        [Display(Name = "Usuário")]
+        [Display(Name = "Plano de Conta")]
         [ForeignKey("PlanoContas")]
         [Column(Order = 1)]
         public string PlanoContaId { get; set; }
         public virtual PlanoContas PlanoContas { get; set; }
 
+        [Display(Name = "Debito")]
+        public bool Debito { get; set; }
 
         [Display(Name = "Usuário")]
         [ForeignKey("Usuario")]
