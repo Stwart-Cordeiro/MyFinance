@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CrossCutting;
 using Domain.Core.Interfaces.Repositorys;
 using Domain.Core.Interfaces.Services;
 
@@ -12,31 +13,73 @@ namespace Domain.Services.Services
         protected ServiceBase(IRepositoryBase<TEntity> repository)
         {
             _repository = repository;
+            Erro = new Erro();
         }
+
+        public Erro Erro { get; set; }
 
         public void Add(TEntity entity)
         {
-            _repository.Add(entity);
+            try
+            {
+                _repository.Add(entity);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
         }
 
         public void Update(TEntity entity)
         {
-            _repository.Update(entity);
+            try
+            {
+                _repository.Update(entity);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
         }
 
         public void Delete(TEntity entity)
         {
-            _repository.Delete(entity);
+            try
+            {
+                _repository.Delete(entity);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
         }
 
         public TEntity GetById(string id)
         {
-            return _repository.GetById(id);
+            try
+            {
+                return _repository.GetById(id);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
 
         public IEnumerable<TEntity> GetAll()
         {
-            return _repository.GetAll();
+            try
+            {
+                return _repository.GetAll();
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
 
         public void Dispose()

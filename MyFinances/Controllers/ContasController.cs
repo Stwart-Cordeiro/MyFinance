@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using CrossCutting;
 using Microsoft.AspNetCore.Mvc;
 using Entities.Entities;
 using Entities.Entities.Enums;
@@ -70,6 +71,11 @@ namespace MyFinances.Controllers
 
                 _service.Add(contas);
 
+                if (_service.Erro.Numero != Erro.Tipo.SemErro)
+                {
+                    await LogSistemaTask(EnumTipoLog.Erro, _service.Erro.Mensagem);
+                }
+
                 if (contas.Notificacoes.Any())
                 {
                     foreach (var item in contas.Notificacoes)
@@ -125,6 +131,11 @@ namespace MyFinances.Controllers
             {
                 _service.Update(contas);
 
+                if (_service.Erro.Numero != Erro.Tipo.SemErro)
+                {
+                    await LogSistemaTask(EnumTipoLog.Erro, _service.Erro.Mensagem);
+                }
+
                 if (contas.Notificacoes.Any())
                 {
                     foreach (var item in contas.Notificacoes)
@@ -178,8 +189,14 @@ namespace MyFinances.Controllers
 
                 _service.Delete(contas);
 
-                await LogSistemaTask(EnumTipoLog.Informativo, contas);
-
+                if (_service.Erro.Numero != Erro.Tipo.SemErro)
+                {
+                    await LogSistemaTask(EnumTipoLog.Erro, _service.Erro.Mensagem);
+                }
+                else
+                {
+                    await LogSistemaTask(EnumTipoLog.Informativo, contas);
+                }
             }
             catch (Exception erro)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Application.Interfaces;
+using CrossCutting;
 using Domain.Core.Interfaces.Services;
 using Entities.Entities;
 
@@ -10,12 +11,13 @@ namespace Application.Service
     {
         private readonly IServiceConta _serviceConta;
 
+        
         public ApplicationServiceConta(IServiceConta serviceConta)
         {
             _serviceConta = serviceConta;
+            Erro = new Erro();
         }
-
-
+        public Erro Erro { get; set; }
         public void Add(Contas conta)
         {
             var validaNome = conta.ValidarPropriedadeString(conta.Nome, "Nome");
@@ -23,6 +25,7 @@ namespace Application.Service
             if (!validaNome) return;
             conta.DataCadastro = DateTime.Now;
             _serviceConta.Add(conta);
+            Erro = _serviceConta.Erro;
         }
 
         public void Update(Contas conta)
@@ -32,26 +35,34 @@ namespace Application.Service
             if (!validaNome) return;
             conta.DataAlteracao = DateTime.Now;
             _serviceConta.Update(conta);
+            Erro = _serviceConta.Erro;
         }
 
         public void Delete(Contas conta)
         {
             _serviceConta.Delete(conta);
+            Erro = _serviceConta.Erro;
         }
 
         public Contas GetById(string id)
         {
-            return _serviceConta.GetById(id);
+            var lista = _serviceConta.GetById(id);
+            Erro = _serviceConta.Erro;
+            return lista;
         }
 
         public IEnumerable<Contas> GetAll(string userId)
         {
-            return _serviceConta.GetAll(userId);
+            var lista= _serviceConta.GetAll(userId);
+            Erro = _serviceConta.Erro;
+            return lista;
         }
 
         public IEnumerable<Contas> GetAllAtivadas(string userId)
         {
-            return _serviceConta.GetAllAtivadas(userId);
+            var lista = _serviceConta.GetAllAtivadas(userId);
+            Erro = _serviceConta.Erro;
+            return lista;
         }
 
         public void Dispose()
