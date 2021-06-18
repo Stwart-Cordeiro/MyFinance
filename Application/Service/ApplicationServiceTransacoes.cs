@@ -57,110 +57,25 @@ namespace Application.Service
             
             if (!validaDescircao || !validaValor) return;
 
-            var transacaoAntiga = _serviceTransacoes.GetById(transacoes.IdTransacoes);
-            var conta = _serviceConta.GetById(transacoes.ContaId);
+            var contas = new Contas();
 
-            if (transacoes.ContaId == transacaoAntiga.ContaId)
+            //Alterar o debito caso acontesa
+            if (transacoes.Debito)
             {
-                if (transacoes.Debito == true)
-                {
-
-                    if (transacoes.TipoDespesas == EnumTipoDespesas.Receita)
-                    {
-                        conta.Valor -= transacaoAntiga.Valor;
-                        conta.Valor += transacoes.Valor;
-                    }
-                    else
-                    {
-                        conta.Valor += transacaoAntiga.Valor;
-                        conta.Valor -= transacoes.Valor;
-                    }
-
-                }
-                else
-                {
-                    if (transacaoAntiga.Debito == true)
-                    {
-                        if (transacoes.TipoDespesas == EnumTipoDespesas.Receita)
-                        {
-                            conta.Valor -= transacaoAntiga.Valor;
-                            conta.Valor += transacoes.Valor;
-                        }
-                        else
-                        {
-                            conta.Valor += transacaoAntiga.Valor;
-                            conta.Valor -= transacoes.Valor;
-                        }
-                    }
-                    else
-                    {
-                        if (transacoes.TipoDespesas == EnumTipoDespesas.Receita)
-                        {
-                            conta.Valor -= transacaoAntiga.Valor;
-                            conta.Valor += transacoes.Valor;
-                        }
-                        else
-                        {
-                            conta.Valor += transacaoAntiga.Valor;
-                            conta.Valor -= transacoes.Valor;
-                        }
-                    }
-
-                }
+                contas = transacoes.TipoDespesas == EnumTipoDespesas.Receita ? AlterarValorReceitaContas(transacoes) : AlterarValorDespesasContas(transacoes);
             }
             else
             {
-                if (transacoes.Debito == true)
-                {
-
-                    if (transacoes.TipoDespesas == EnumTipoDespesas.Receita)
-                    {
-                        conta.Valor -= transacaoAntiga.Valor;
-                        conta.Valor += transacoes.Valor;
-                    }
-                    else
-                    {
-                        conta.Valor += transacaoAntiga.Valor;
-                        conta.Valor -= transacoes.Valor;
-                    }
-
-                }
-                else
-                {
-                    if (transacaoAntiga.Debito == true)
-                    {
-                        if (transacoes.TipoDespesas == EnumTipoDespesas.Receita)
-                        {
-                            conta.Valor -= transacaoAntiga.Valor;
-                            conta.Valor += transacoes.Valor;
-                        }
-                        else
-                        {
-                            conta.Valor += transacaoAntiga.Valor;
-                            conta.Valor -= transacoes.Valor;
-                        }
-                    }
-                    else
-                    {
-                        if (transacoes.TipoDespesas == EnumTipoDespesas.Receita)
-                        {
-                            conta.Valor -= transacaoAntiga.Valor;
-                            conta.Valor += transacoes.Valor;
-                        }
-                        else
-                        {
-                            conta.Valor += transacaoAntiga.Valor;
-                            conta.Valor -= transacoes.Valor;
-                        }
-                    }
-
-                }
+                contas = transacoes.TipoDespesas == EnumTipoDespesas.Receita ? AlterarValorReceitaContas(transacoes) : AlterarValorDespesasContas(transacoes);
             }
+            
 
-            _serviceConta.Update(conta);
+            _serviceConta.Update(contas);
 
             transacoes.DataAlteracao = DateTime.Now;
+
             _serviceTransacoes.Update(transacoes);
+
             Erro = _serviceTransacoes.Erro;
         }
 
@@ -183,6 +98,47 @@ namespace Application.Service
             Erro = _serviceTransacoes.Erro;
             return lista;
         }
+
+        private Contas AlterarValorReceitaContas(Transacoes transacoes)
+        {
+            var conta = _serviceConta.GetById(transacoes.ContaId);
+            var antigo = _serviceTransacoes.GetById(transacoes.IdTransacoes);
+
+            if (transacoes.Debito != antigo.Debito)
+            {
+                conta.Valor -= antigo.Valor == transacoes.Valor ? transacoes.Valor : antigo.Valor;
+            }
+            else
+            {
+                //Retira o Valor Antigo
+                conta.Valor -= antigo.Valor;
+                //soma com o valor novo
+                conta.Valor += transacoes.Valor;
+            }
+
+            return conta;
+        }
+
+        private Contas AlterarValorDespesasContas(Transacoes transacoes)
+        {
+            var conta = _serviceConta.GetById(transacoes.ContaId);
+            var antigo = _serviceTransacoes.GetById(transacoes.IdTransacoes);
+
+            if (transacoes.Debito != antigo.Debito)
+            {
+                conta.Valor += antigo.Valor == transacoes.Valor ? transacoes.Valor : antigo.Valor;
+            }
+            else
+            {
+                //Soma o Valor Antigo
+                conta.Valor += antigo.Valor;
+                //Retira o valor Novo
+                conta.Valor -= transacoes.Valor;
+            }
+            
+            return conta;
+        }
+        
 
         public void Dispose()
         {

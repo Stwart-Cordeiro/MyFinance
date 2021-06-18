@@ -210,6 +210,6 @@ namespace MyFinances.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
+        
     }
 }
