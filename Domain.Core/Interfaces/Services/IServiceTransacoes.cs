@@ -8,5 +8,8 @@ namespace Domain.Core.Interfaces.Services
         public IEnumerable<Transacoes> GetAll(string userId);
 
         public Transacoes GetById(string id);
+
+        public IEnumerable<Transacoes> GetAllLimite10(string userId);
+        
     }
 }

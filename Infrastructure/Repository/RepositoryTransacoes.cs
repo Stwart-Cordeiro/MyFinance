@@ -25,6 +25,15 @@ namespace Infrastructure.Repository
                 .Where(x => x.UserId == userId);
         }
 
+        public IEnumerable<Transacoes> GetAllLimite10(string userId)
+        {
+            return _myFinancesContext.Transacao
+                .Include(t => t.Contas)
+                .Include(t => t.PlanoContas)
+                .Include(t => t.Usuario)
+                .Where(x => x.UserId == userId).Take(10);
+        }
+
         public Transacoes GetById(string id)
         {
             return _myFinancesContext.Transacao

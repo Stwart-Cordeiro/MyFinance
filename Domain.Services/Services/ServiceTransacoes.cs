@@ -23,5 +23,10 @@ namespace Domain.Services.Services
         {
             return _repositoryTransacoes.GetById(id);
         }
+
+        public IEnumerable<Transacoes> GetAllLimite10(string userId)
+        {
+            return _repositoryTransacoes.GetAll(userId);
+        }
     }
 }

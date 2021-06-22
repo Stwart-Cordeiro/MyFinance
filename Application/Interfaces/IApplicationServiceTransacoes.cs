@@ -12,6 +12,8 @@ namespace Application.Interfaces
         void Delete(Transacoes transacoes);
         Transacoes GetById(string id);
         IEnumerable<Transacoes> GetAll(string userId);
+        IEnumerable<Transacoes> GetAllLimite10(string userId);
+        
         void Dispose();
     }
 }

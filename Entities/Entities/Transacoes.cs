@@ -53,5 +53,13 @@ namespace Entities.Entities
 
         [Display(Name = "Data de Alteração")]
         public DateTime DataAlteracao { get; set; }
+
+        [Display(Name = "Data Iniciao")]
+        [NotMapped]
+        public DateTime DataInicio { get; set; }
+
+        [Display(Name = "Data Final")]
+        [NotMapped]
+        public DateTime DataFinal { get; set; }
     }
 }

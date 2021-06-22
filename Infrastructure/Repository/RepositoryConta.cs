@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using CrossCutting;
 using Domain.Core.Interfaces.Repositorys;
 using Entities.Entities;
 using Entities.Entities.Enums;
@@ -19,17 +21,44 @@ namespace Infrastructure.Repository
 
         public IEnumerable<Contas> GetAll(string userId)
         {
-            return _myFinancesContext.Conta.Where(x => x.UserId == userId);
+            try
+            {
+                return _myFinancesContext.Conta.Where(x => x.UserId == userId);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
 
         public Contas GetById(string id)
         {
-            return _myFinancesContext.Conta.Include(c => c.Usuario).FirstOrDefault(m => m.IdConta == id);
+            try
+            {
+                return _myFinancesContext.Conta.Include(c => c.Usuario).FirstOrDefault(m => m.IdConta == id);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
 
         public IEnumerable<Contas> GetAllAtivadas(string userId)
         {
-            return _myFinancesContext.Conta.Where(x => x.UserId == userId && x.Status == EnumStatus.Ativado);
+            try
+            {
+                return _myFinancesContext.Conta.Where(x => x.UserId == userId && x.Status == EnumStatus.Ativado);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
     }
 }

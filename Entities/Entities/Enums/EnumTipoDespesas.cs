@@ -3,6 +3,7 @@
     public enum EnumTipoDespesas
     {
         Receita = 1,
-        Despesas = 2
+        Despesas = 2,
+        Ambos = 3
     }
 }

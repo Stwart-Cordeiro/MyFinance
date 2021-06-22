@@ -7,6 +7,8 @@ namespace Domain.Core.Interfaces.Repositorys
     {
         public IEnumerable<Transacoes> GetAll(string userId);
 
+        public IEnumerable<Transacoes> GetAllLimite10(string userId);
+
         public Transacoes GetById(string id);
     }
 }

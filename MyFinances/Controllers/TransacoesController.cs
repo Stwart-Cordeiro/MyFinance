@@ -210,6 +210,27 @@ namespace MyFinances.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        
+
+
+        public async Task<IActionResult> Extrato()
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+
+            ViewBag.ContaId = new SelectList(_serviceConta.GetAllAtivadas(usuario.Id), "IdConta", "Nome");
+            
+            ViewBag.ListaTransacoes = _serviceTransacoes.GetAll(usuario.Id);
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Extrato(Transacoes transacoes)
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+
+            ViewBag.ContaId = new SelectList(_serviceConta.GetAllAtivadas(usuario.Id), "IdConta", "Nome");
+            ViewBag.ListaTransacoes = _serviceTransacoes.GetAll(usuario.Id);
+            return View();
+        }
+
     }
 }
