@@ -226,10 +226,72 @@ namespace MyFinances.Controllers
         public async Task<IActionResult> Extrato(Transacoes transacoes)
         {
             var usuario = await _userManager.GetUserAsync(User);
-
+            transacoes.UserId = usuario.Id;
             ViewBag.ContaId = new SelectList(_serviceConta.GetAllAtivadas(usuario.Id), "IdConta", "Nome");
-            ViewBag.ListaTransacoes = _serviceTransacoes.GetAll(usuario.Id);
+            ViewBag.ListaTransacoes = _serviceTransacoes.ExtratoTransacoes(transacoes);
             return View();
+        }
+
+        // GET: Transações/ExtratoEdit/5
+        public async Task<IActionResult> ExtratoEdit(string id)
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var transacoes = _serviceTransacoes.GetById(id);
+
+            if (transacoes == null)
+            {
+                return NotFound();
+            }
+            ViewBag.ContaId = new SelectList(_serviceConta.GetAllAtivadas(usuario.Id), "IdConta", "Nome", transacoes.ContaId);
+            ViewBag.PlanoContaId = new SelectList(_servicePlanoConta.GetAllAtivadas(usuario.Id), "IdPlanoConta", "Nome", transacoes.PlanoContaId);
+            return View(transacoes);
+        }
+
+        // POST: Transações/ExtratoEdit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExtratoEdit(string id, Transacoes transacoes)
+        {
+            if (id != transacoes.IdTransacoes)
+            {
+                return NotFound();
+            }
+
+            var usuario = await _userManager.GetUserAsync(User);
+
+            try
+            {
+
+                _serviceTransacoes.Update(transacoes);
+
+                if (transacoes.Notificacoes.Any())
+                {
+                    foreach (var item in transacoes.Notificacoes)
+                    {
+                        ModelState.AddModelError(item.NomePropriedade, item.Mensagem);
+                    }
+                    ViewBag.ContaId = new SelectList(_serviceConta.GetAllAtivadas(usuario.Id), "IdConta", "Nome", transacoes.ContaId);
+                    ViewBag.PlanoContaId = new SelectList(_servicePlanoConta.GetAllAtivadas(usuario.Id), "IdPlanoConta", "Nome", transacoes.PlanoContaId);
+                    return View(transacoes);
+                }
+
+                await LogSistemaTask(EnumTipoLog.Informativo, transacoes);
+
+            }
+            catch (Exception erro)
+            {
+                await LogSistemaTask(EnumTipoLog.Erro, erro);
+
+                return View(transacoes);
+            }
+            ViewBag.ContaId = new SelectList(_serviceConta.GetAllAtivadas(usuario.Id), "IdConta", "Nome", transacoes.ContaId);
+            return RedirectToAction(nameof(Extrato));
         }
 
     }

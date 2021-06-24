@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Entities.Entities;
+using Entities.Entities.Enums;
 
 namespace Domain.Core.Interfaces.Repositorys
 {
@@ -7,8 +9,12 @@ namespace Domain.Core.Interfaces.Repositorys
     {
         public IEnumerable<Transacoes> GetAll(string userId);
 
+        public Transacoes GetById(string id);
+
         public IEnumerable<Transacoes> GetAllLimite10(string userId);
 
-        public Transacoes GetById(string id);
+        public IEnumerable<Transacoes> ExtratoTransacoes(Transacoes transacoes);
+
+        
     }
 }

@@ -13,7 +13,8 @@ namespace Application.Interfaces
         Transacoes GetById(string id);
         IEnumerable<Transacoes> GetAll(string userId);
         IEnumerable<Transacoes> GetAllLimite10(string userId);
-        
+        IEnumerable<Transacoes> ExtratoTransacoes(Transacoes transacoes);
+
         void Dispose();
     }
 }

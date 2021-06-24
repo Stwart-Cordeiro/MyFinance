@@ -1,7 +1,9 @@
-﻿using Domain.Core.Interfaces.Repositorys;
+﻿using System;
+using Domain.Core.Interfaces.Repositorys;
 using Domain.Core.Interfaces.Services;
 using Entities.Entities;
 using System.Collections.Generic;
+using CrossCutting;
 
 namespace Domain.Services.Services
 {
@@ -16,12 +18,30 @@ namespace Domain.Services.Services
 
         public IEnumerable<LogSistema> GetAll(string userId)
         {
-            return _repositoryLogSistema.GetAll(userId);
+            try
+            {
+                return _repositoryLogSistema.GetAll(userId);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
 
         public LogSistema GetById(string id)
         {
-            return _repositoryLogSistema.GetById(id);
+            try
+            {
+                return _repositoryLogSistema.GetById(id);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
     }
 }

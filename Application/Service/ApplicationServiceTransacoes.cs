@@ -74,9 +74,18 @@ namespace Application.Service
             return lista;
         }
 
+        public IEnumerable<Transacoes> ExtratoTransacoes(Transacoes transacoes)
+        {
+            var lista = _serviceTransacoes.ExtratoTransacoes(transacoes);
+            Erro = _serviceTransacoes.Erro;
+            return lista;
+        }
+
         public void Dispose()
         {
             _serviceTransacoes.Dispose();
         }
+
+       
     }
 }
