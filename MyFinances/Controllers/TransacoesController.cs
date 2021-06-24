@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using CrossCutting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Entities.Entities;
@@ -36,6 +37,11 @@ namespace MyFinances.Controllers
             var usuario = await _userManager.GetUserAsync(User);
 
             var transacao = _serviceTransacoes.GetAll(usuario.Id);
+
+            if (_serviceTransacoes.Erro.Numero != Erro.Tipo.SemErro)
+            {
+                await LogSistemaTask(EnumTipoLog.Erro, _serviceTransacoes.Erro.Mensagem);
+            }
 
             return View(transacao);
         }
@@ -83,6 +89,11 @@ namespace MyFinances.Controllers
                 transacoes.UserId = usuario.Id;
 
                 _serviceTransacoes.Add(transacoes);
+
+                if (_serviceTransacoes.Erro.Numero != Erro.Tipo.SemErro)
+                {
+                    await LogSistemaTask(EnumTipoLog.Erro, _serviceTransacoes.Erro.Mensagem);
+                }
 
                 if (transacoes.Notificacoes.Any())
                 {
@@ -148,6 +159,11 @@ namespace MyFinances.Controllers
 
                 _serviceTransacoes.Update(transacoes);
 
+                if (_serviceTransacoes.Erro.Numero != Erro.Tipo.SemErro)
+                {
+                    await LogSistemaTask(EnumTipoLog.Erro, _serviceTransacoes.Erro.Mensagem);
+                }
+
                 if (transacoes.Notificacoes.Any())
                 {
                     foreach (var item in transacoes.Notificacoes)
@@ -210,8 +226,7 @@ namespace MyFinances.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-
+        
         public async Task<IActionResult> Extrato()
         {
             var usuario = await _userManager.GetUserAsync(User);
@@ -229,6 +244,12 @@ namespace MyFinances.Controllers
             transacoes.UserId = usuario.Id;
             ViewBag.ContaId = new SelectList(_serviceConta.GetAllAtivadas(usuario.Id), "IdConta", "Nome");
             ViewBag.ListaTransacoes = _serviceTransacoes.ExtratoTransacoes(transacoes);
+
+            if (_serviceTransacoes.Erro.Numero != Erro.Tipo.SemErro)
+            {
+                await LogSistemaTask(EnumTipoLog.Erro, _serviceTransacoes.Erro.Mensagem);
+            }
+
             return View();
         }
 
@@ -292,6 +313,31 @@ namespace MyFinances.Controllers
             }
             ViewBag.ContaId = new SelectList(_serviceConta.GetAllAtivadas(usuario.Id), "IdConta", "Nome", transacoes.ContaId);
             return RedirectToAction(nameof(Extrato));
+        }
+
+        public IActionResult DashboardExtratos()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> ExtratoDespesas()
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+
+            var result = _serviceTransacoes.ExtratoDespesas(usuario.Id);
+
+            return Json(result);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> ExtratoReceitas()
+        {
+            var usuario = await _userManager.GetUserAsync(User);
+
+            var result = _serviceTransacoes.ExtratoReceitas(usuario.Id);
+
+            return Json(result);
         }
 
     }

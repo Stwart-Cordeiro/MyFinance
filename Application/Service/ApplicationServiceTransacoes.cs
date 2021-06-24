@@ -81,11 +81,25 @@ namespace Application.Service
             return lista;
         }
 
+        public IEnumerable<Dashboard> ExtratoDespesas(string userId)
+        {
+            var lista = _serviceTransacoes.ExtratoDespesas(userId);
+            Erro = _serviceTransacoes.Erro;
+            return lista;
+        }
+
+        public IEnumerable<Dashboard> ExtratoReceitas(string userId)
+        {
+            var lista = _serviceTransacoes.ExtratoReceitas(userId);
+            Erro = _serviceTransacoes.Erro;
+            return lista;
+        }
+
         public void Dispose()
         {
             _serviceTransacoes.Dispose();
         }
 
-       
+        
     }
 }

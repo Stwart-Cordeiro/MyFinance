@@ -117,5 +117,53 @@ namespace Infrastructure.Repository
 
             return null;
         }
+
+        public IEnumerable<Dashboard> ExtratoDespesas(string userId)
+        {
+            try
+            {
+                var result = from Tr in _myFinancesContext.Transacao
+                    where(Tr.TipoDespesas == EnumTipoDespesas.Despesas) 
+                    group Tr by Tr.PlanoContas.Nome
+                    into ngroup
+                    select new Dashboard
+                    {
+                        PlanoConta = ngroup.Key,
+                        Total = ngroup.Sum(x => x.Valor)
+                    };
+
+                return result;
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
+        }
+
+        public IEnumerable<Dashboard> ExtratoReceitas(string userId)
+        {
+            try
+            {
+                var result = from Tr in _myFinancesContext.Transacao
+                    where (Tr.TipoDespesas == EnumTipoDespesas.Receita)
+                    group Tr by Tr.PlanoContas.Nome
+                    into ngroup
+                    select new Dashboard
+                    {
+                        PlanoConta = ngroup.Key,
+                        Total = ngroup.Sum(x => x.Valor)
+                    };
+
+                return result;
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
+        }
     }
 }

@@ -31,6 +31,12 @@ namespace MyFinances.Controllers
             var usuario = await _userManager.GetUserAsync(User);
 
             var contas = _service.GetAll(usuario.Id);
+
+            if (_service.Erro.Numero != Erro.Tipo.SemErro)
+            {
+                await LogSistemaTask(EnumTipoLog.Erro, _service.Erro.Mensagem);
+            }
+
             return View(contas);
         }
 

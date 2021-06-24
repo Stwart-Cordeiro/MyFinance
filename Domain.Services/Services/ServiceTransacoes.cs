@@ -72,5 +72,33 @@ namespace Domain.Services.Services
 
             return null;
         }
+
+        public IEnumerable<Dashboard> ExtratoDespesas(string userId)
+        {
+            try
+            {
+                return _repositoryTransacoes.ExtratoDespesas(userId);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
+        }
+
+        public IEnumerable<Dashboard> ExtratoReceitas(string userId)
+        {
+            try
+            {
+                return _repositoryTransacoes.ExtratoReceitas(userId);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
+        }
     }
 }

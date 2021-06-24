@@ -14,6 +14,8 @@ namespace Application.Interfaces
         IEnumerable<Transacoes> GetAll(string userId);
         IEnumerable<Transacoes> GetAllLimite10(string userId);
         IEnumerable<Transacoes> ExtratoTransacoes(Transacoes transacoes);
+        IEnumerable<Dashboard> ExtratoDespesas(string userId);
+        IEnumerable<Dashboard> ExtratoReceitas(string userId);
 
         void Dispose();
     }

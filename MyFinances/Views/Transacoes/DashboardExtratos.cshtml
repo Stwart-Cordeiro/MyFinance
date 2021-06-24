@@ -1,0 +1,109 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>Dashboard</h1>
+
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load("current", { packages: ["corechart"] });
+        google.charts.setOnLoadCallback(CarregaDadosDespesas);
+        google.charts.setOnLoadCallback(CarregaDadosReceitas);
+        function CarregaDadosDespesas() {
+            $.ajax({
+                url:'@Url.Action("ExtratoDespesas","Transacoes")',
+                dataType: "json",
+                type: "GET",
+                error: function(xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    toastr.error(err.message);
+                },
+                success: function(data) {
+                    DespesasPopulado(data);
+                    return false;
+                }
+
+            });
+            return false;
+        };
+
+        function CarregaDadosReceitas() {
+            $.ajax({
+                url:'@Url.Action("ExtratoReceitas","Transacoes")',
+                dataType: "json",
+                type: "GET",
+                error: function(xhr, status, error) {
+                    var err = eval("(" + xhr.responseText + ")");
+                    toastr.error(err.message);
+                },
+                success: function(data) {
+                    ReceitasPopulado(data);
+                    return false;
+                }
+
+            });
+            return false;
+        };
+
+        function DespesasPopulado(data) {
+            var dataArray = [
+                ['Total', 'Plano Conta']
+            ];
+            $.each(data,
+                function(i, item) {
+                    dataArray.push([item.planoConta, item.total]);
+                });
+
+            var data = google.visualization.arrayToDataTable(dataArray);
+            var options = {
+                title: 'Porcentagens - Despesas',
+                is3D: true,
+                chartArea: {
+                    width: '100%'
+                },
+                hAxis: {
+                    title: 'Total',
+                    minValue: 0
+                }
+            };
+
+            var despesas = new google.visualization.PieChart(document.getElementById('piechart_Despesas'));
+            despesas.draw(data, options);
+            return false;
+        }
+
+        function ReceitasPopulado(data) {
+            var dataArray = [
+                ['Total', 'Plano Conta']
+            ];
+            $.each(data,
+                function(i, item) {
+                    dataArray.push([item.planoConta, item.total]);
+                });
+
+            var data = google.visualization.arrayToDataTable(dataArray);
+            var options = {
+                title: 'Porcentagens - Receitas',
+                is3D: true,
+                chartArea: {
+                    width: '100%'
+                },
+                hAxis: {
+                    title: 'Total',
+                    minValue: 0
+                }
+            };
+
+            var receitas = new google.visualization.PieChart(document.getElementById('piechart_Receitas'));
+            receitas.draw(data, options);
+            return false;
+        }
+    </script>
+</head>
+<body>
+    <div id="piechart_Despesas" style="width: 900px; height: 500px;"></div>
+    <div id="piechart_Receitas" style="width: 900px; height: 500px;"></div>
+</body>
+</html>

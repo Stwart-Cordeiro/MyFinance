@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Entities.Entities;
-using Entities.Entities.Enums;
 
 namespace Domain.Core.Interfaces.Repositorys
 {
@@ -15,6 +13,7 @@ namespace Domain.Core.Interfaces.Repositorys
 
         public IEnumerable<Transacoes> ExtratoTransacoes(Transacoes transacoes);
 
-        
+        public IEnumerable<Dashboard> ExtratoDespesas(string userId);
+        public IEnumerable<Dashboard> ExtratoReceitas(string userId);
     }
 }
