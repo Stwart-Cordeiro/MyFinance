@@ -2,9 +2,11 @@
 using Microsoft.Extensions.Logging;
 using MyFinances.Models;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyFinances.Controllers
 {
+    //[Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

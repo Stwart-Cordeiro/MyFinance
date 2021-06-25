@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="ExtratoEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdTransacoes" />
             <input type="hidden" asp-for="UserId" />
@@ -86,7 +86,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" value="Salvar" class="btn btn-success" />
-                <a asp-action="Index" class="btn btn-primary">Voltar</a>
+                <a asp-action="Extrato" class="btn btn-primary">Voltar</a>
             </div>
         </form>
     </div>

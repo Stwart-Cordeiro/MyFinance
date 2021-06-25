@@ -1,7 +1,9 @@
-﻿using Domain.Core.Interfaces.Repositorys;
+﻿using System;
+using Domain.Core.Interfaces.Repositorys;
 using Domain.Core.Interfaces.Services;
 using Entities.Entities;
 using System.Collections.Generic;
+using CrossCutting;
 
 namespace Domain.Services.Services
 {
@@ -16,17 +18,44 @@ namespace Domain.Services.Services
 
         public IEnumerable<Contas> GetAll(string userId)
         {
-            return _repositoryConta.GetAll(userId);
+            try
+            {
+                return _repositoryConta.GetAll(userId);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
 
         public Contas GetById(string id)
         {
-            return _repositoryConta.GetById(id);
+            try
+            {
+                return _repositoryConta.GetById(id);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
 
         public IEnumerable<Contas> GetAllAtivadas(string userId)
         {
-            return _repositoryConta.GetAllAtivadas(userId);
+            try
+            {
+                return _repositoryConta.GetAllAtivadas(userId);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
     }
 }

@@ -1,0 +1,96 @@
+﻿@using Entities.Entities.Enums
+@using Entities.Entities
+@model Entities.Entities.Transacoes
+@{
+    ViewData["Title"] = "Extrato";
+}
+
+<h1>Extrato</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Extrato">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DataInicio" class="control-label"></label>
+                <input asp-for="DataInicio" type="date" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="DataFinal" class="control-label"></label>
+                <input asp-for="DataFinal" type="date" class="form-control" />
+            </div>
+            <div class="form-group col-md-12">
+                <label>Tipo Transação:</label>
+                <div class="radio"><label><input type="radio" asp-for="TipoDespesas" value="@EnumTipoDespesas.Ambos" checked />Receitas e Despesas</label></div>
+                <div class="radio"><label><input type="radio" asp-for="TipoDespesas" value="@EnumTipoDespesas.Receita" />Receitas</label></div>
+                <div class="radio"><label><input type="radio" asp-for="TipoDespesas" value="@EnumTipoDespesas.Despesas" />Despesas</label></div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContaId" class="control-label"></label>
+                <select asp-for="ContaId" class="form-control" asp-items="ViewBag.ContaId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Pesquisa" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DataTransacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoDespesas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Valor)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descricao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlanoContas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Usuario)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in (IEnumerable<Transacoes>)ViewBag.ListaTransacoes) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataTransacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoDespesas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Valor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contas.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlanoContas.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.UserName)
+            </td>
+            <td>
+                <a asp-action="ExtratoEdit" asp-route-id="@item.IdTransacoes" class="btn btn-warning">Editar</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+

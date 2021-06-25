@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using CrossCutting;
 using Entities.Entities;
 
 namespace Application.Interfaces
 {
     public interface IApplicationServicePlanoConta
     {
+        Erro Erro { get; set; }
         void Add(PlanoContas planoContas);
         void Update(PlanoContas planoContas);
         void Delete(PlanoContas planoContas);

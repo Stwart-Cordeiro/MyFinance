@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using CrossCutting;
 using Domain.Core.Interfaces.Repositorys;
 using Domain.Core.Interfaces.Services;
 using Entities.Entities;
@@ -18,17 +20,44 @@ namespace Domain.Services.Services
 
         public IEnumerable<PlanoContas> GetAll(string userId)
         {
-            return _repositoryPlanoConta.GetAll(userId);
+            try
+            {
+                return _repositoryPlanoConta.GetAll(userId);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
 
         public PlanoContas GetById(string id)
         {
-            return _repositoryPlanoConta.GetById(id);
+            try
+            {
+                return _repositoryPlanoConta.GetById(id);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
 
         public IEnumerable<PlanoContas> GetAllAtivadas(string userId)
         {
-            return _repositoryPlanoConta.GetAllAtivadas(userId);
+            try
+            {
+                return _repositoryPlanoConta.GetAllAtivadas(userId);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
     }
 }

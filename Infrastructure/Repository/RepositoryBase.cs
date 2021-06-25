@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CrossCutting;
 using Infrastructure.Configuration;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,10 @@ namespace Infrastructure.Repository
         protected RepositoryBase(MyFinancesContext myFinancesContext)
         {
             _myFinancesContext = myFinancesContext;
+            Erro = new Erro();
         }
+
+        public Erro Erro { get; set; }
 
         public void Add(TEntity entity)
         {
@@ -26,7 +30,7 @@ namespace Infrastructure.Repository
             }
             catch (Exception erro)
             {
-                throw erro;
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
             }
         }
 
@@ -39,7 +43,7 @@ namespace Infrastructure.Repository
             }
             catch (Exception erro)
             {
-                throw erro;
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
             }
         }
 
@@ -52,18 +56,36 @@ namespace Infrastructure.Repository
             }
             catch (Exception erro)
             {
-                throw erro;
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
             }
         }
 
         public TEntity GetById(string id)
         {
-            return _myFinancesContext.Set<TEntity>().Find(id);
+            try
+            {
+               return _myFinancesContext.Set<TEntity>().Find(id);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
 
         public IEnumerable<TEntity> GetAll()
         {
-            return _myFinancesContext.Set<TEntity>().ToList();
+            try
+            {
+                return _myFinancesContext.Set<TEntity>().ToList();
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
         }
 
         public void Dispose()

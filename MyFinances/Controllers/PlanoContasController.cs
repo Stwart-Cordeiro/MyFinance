@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using CrossCutting;
 using Microsoft.AspNetCore.Mvc;
 using Entities.Entities;
 using Entities.Entities.Enums;
@@ -32,6 +33,11 @@ namespace MyFinances.Controllers
             var usuario = await _userManager.GetUserAsync(User);
 
             var planoConta = _planoConta.GetAll(usuario.Id);
+
+            if (_planoConta.Erro.Numero != Erro.Tipo.SemErro)
+            {
+                await LogSistemaTask(EnumTipoLog.Erro, _planoConta.Erro.Mensagem);
+            }
 
             return View(planoConta);
         }
@@ -73,6 +79,11 @@ namespace MyFinances.Controllers
                 planoContas.UserId = usuario.Id;
 
                 _planoConta.Add(planoContas);
+
+                if (_planoConta.Erro.Numero != Erro.Tipo.SemErro)
+                {
+                    await LogSistemaTask(EnumTipoLog.Erro, _planoConta.Erro.Mensagem);
+                }
 
                 if (planoContas.Notificacoes.Any())
                 {
@@ -128,6 +139,11 @@ namespace MyFinances.Controllers
             {
                 _planoConta.Update(planoContas);
 
+                if (_planoConta.Erro.Numero != Erro.Tipo.SemErro)
+                {
+                    await LogSistemaTask(EnumTipoLog.Erro, _planoConta.Erro.Mensagem);
+                }
+
                 if (planoContas.Notificacoes.Any())
                 {
                     foreach (var item in planoContas.Notificacoes)
@@ -179,7 +195,14 @@ namespace MyFinances.Controllers
 
                 _planoConta.Delete(planoContas);
 
-                await LogSistemaTask(EnumTipoLog.Informativo, planoContas);
+                if (_planoConta.Erro.Numero != Erro.Tipo.SemErro)
+                {
+                    await LogSistemaTask(EnumTipoLog.Erro, _planoConta.Erro.Mensagem);
+                }
+                else
+                {
+                    await LogSistemaTask(EnumTipoLog.Informativo, planoContas);
+                }
             }
             catch (Exception erro)
             {
