@@ -13,6 +13,7 @@ namespace Application.Interfaces
         Contas GetById(string id);
         IEnumerable<Contas> GetAll(string userId);
         IEnumerable<Contas> GetAllAtivadas(string userId);
+        IEnumerable<Contas> GetSearch(string search, string userId);
         void Dispose();
     }
 }

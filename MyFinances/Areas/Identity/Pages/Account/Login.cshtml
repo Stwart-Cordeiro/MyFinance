@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>My Finance</title>
+    <title>My Finances</title>
 </head>
 <body>
     <div id="logreg-forms">
@@ -21,10 +21,7 @@
             <input type="password" id="inputPassword" asp-for="Input.Password" class="form-control" placeholder="Password" required="">
 
             <button class="btn btn-success btn-block" type="submit"><i class="fas fa-sign-in-alt"></i> Log in</button>
-            <a asp-page="./ForgotPassword"id="forgot_pswd">Esqueceu sua senha?</a>
-            <hr>
-            <!-- <p>Don't have an account!</p>  -->
-            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" type="button" class="btn btn-primary btn-block"  id="btn-signup"><i class="fas fa-user-plus"></i> Registre-se como um novo usuário</a>
+            <a asp-page="./ForgotPassword"id="forgot_pswd">Esqueceu sua senha?</a>            
         </form>
 
         <form action="/reset/password/" class="form-reset">
@@ -32,70 +29,10 @@
             <button class="btn btn-primary btn-block" type="submit">Reset Password</button>
             <a href="#" id="cancel_reset"><i class="fas fa-angle-left"></i> Back</a>
         </form>
-
-        <form action="/signup/" class="form-signup">
-            <div class="social-login">
-                <button class="btn facebook-btn social-btn" type="button"><span><i class="fab fa-facebook-f"></i> Sign up with Facebook</span> </button>
-            </div>
-            <div class="social-login">
-                <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign up with Google+</span> </button>
-            </div>
-
-            <p style="text-align:center">OR</p>
-
-            <input type="text" id="user-name" class="form-control" placeholder="Full name" required="" autofocus="">
-            <input type="email" id="user-email" class="form-control" placeholder="Email address" required autofocus="">
-            <input type="password" id="user-pass" class="form-control" placeholder="Password" required autofocus="">
-            <input type="password" id="user-repeatpass" class="form-control" placeholder="Repeat Password" required autofocus="">
-
-            <button class="btn btn-primary btn-block" type="submit"><i class="fas fa-user-plus"></i> Sign Up</button>
-            <a href="#" id="cancel_signup"><i class="fas fa-angle-left"></i> Back</a>
-        </form>
-        <br>
-
     </div>
 </body>
 </html>
 
-@*<div class="row">
-        <div class="col-md-4">
-            <section>
-                <form id="account" method="post">
-                    <hr />
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Input.Email"></label>
-                        <input asp-for="Input.Email" class="form-control" />
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Input.Password"></label>
-                        <input asp-for="Input.Password" class="form-control" />
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label asp-for="Input.RememberMe">
-                                <input asp-for="Input.RememberMe" />
-                                @Html.DisplayNameFor(m => m.Input.RememberMe)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Log in</button>
-                    </div>
-                    <div class="form-group">
-                        <p>
-                            <a id="forgot-password" asp-page="./ForgotPassword">Esqueceu sua senha?</a>
-                        </p>
-                        <p>
-                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registre-se como um novo usuário</a>
-                        </p>
-                    </div>
-                </form>
-            </section>
-        </div>
-    </div>*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

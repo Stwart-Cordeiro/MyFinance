@@ -9,6 +9,7 @@ using Entities.Entities.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using MyFinances.ViewModels;
 
 namespace MyFinances.Controllers
 {
@@ -26,18 +27,46 @@ namespace MyFinances.Controllers
         }
 
         // GET: Contas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
             var usuario = await _userManager.GetUserAsync(User);
 
             var contas = _service.GetAll(usuario.Id);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                contas = _service.GetSearch(searchString, usuario.Id);
+            }
+
+
+            contas = sortOrder switch
+            {
+                "name_desc" => contas.OrderByDescending(x => x.Nome),
+                _ => contas.OrderBy(x => x.Nome),
+            };
+
+            var pageSize = 5;
 
             if (_service.Erro.Numero != Erro.Tipo.SemErro)
             {
                 await LogSistemaTask(EnumTipoLog.Erro, _service.Erro.Mensagem);
             }
 
-            return View(contas);
+            return View(PaginatedList<Contas>.Create(contas, pageNumber ?? 1, pageSize));
         }
 
         // GET: Contas/Details/5

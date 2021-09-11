@@ -64,10 +64,18 @@ namespace Application.Service
             Erro = _serviceConta.Erro;
             return lista;
         }
+                
+        public IEnumerable<Contas> GetSearch(string search, string userId)
+        {
+            var lista = _serviceConta.GetSearch(search,userId);
+            Erro = _serviceConta.Erro;
+            return lista;
+        }
 
         public void Dispose()
         {
             _serviceConta.Dispose();
         }
+
     }
 }
