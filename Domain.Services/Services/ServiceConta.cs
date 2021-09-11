@@ -57,5 +57,19 @@ namespace Domain.Services.Services
 
             return null;
         }
+
+        public IEnumerable<Contas> GetSearch(string search, string userId)
+        {
+            try
+            {
+                return _repositoryConta.GetSearch(search, userId);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
+        }
     }
 }

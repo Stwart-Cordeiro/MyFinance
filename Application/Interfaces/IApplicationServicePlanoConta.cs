@@ -13,6 +13,7 @@ namespace Application.Interfaces
         PlanoContas GetById(string id);
         IEnumerable<PlanoContas> GetAll(string userId);
         IEnumerable<PlanoContas> GetAllAtivadas(string userId);
+        IEnumerable<PlanoContas> GetSearch(string search, string userId);
         void Dispose();
     }
 }

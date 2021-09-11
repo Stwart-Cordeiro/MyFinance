@@ -70,5 +70,12 @@ namespace Application.Service
         {
             _servicePlanoConta.Dispose();
         }
+
+        public IEnumerable<PlanoContas> GetSearch(string search, string userId)
+        {
+            var lista = _servicePlanoConta.GetSearch(search, userId);
+            Erro = _servicePlanoConta.Erro;
+            return lista;
+        }
     }
 }

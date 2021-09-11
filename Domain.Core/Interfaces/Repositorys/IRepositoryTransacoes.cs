@@ -15,5 +15,7 @@ namespace Domain.Core.Interfaces.Repositorys
 
         public IEnumerable<Dashboard> ExtratoDespesas(string userId);
         public IEnumerable<Dashboard> ExtratoReceitas(string userId);
+
+        public IEnumerable<Transacoes> GetSearch(string search, string userId);
     }
 }

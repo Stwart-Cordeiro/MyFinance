@@ -1,55 +1,85 @@
-﻿@model IEnumerable<Entities.Entities.LogSistema>
+﻿@model MyFinances.ViewModels.PaginatedList<Entities.Entities.LogSistema>
 
 @{
     ViewData["Title"] = "Lista";
 }
 
-<h1>Lista</h1>
+<div class="form-row">
+    <div class="col-md-12">
+        <h1>Lista</h1>
+    </div>
 
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Código
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DataErroSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Data Erro</a>
+                </th>
+                <th>
+                    Tipo Log
+                </th>
+                <th>
+                    Nome Controller
+                </th>
+                <th>
+                    Nome Action
+                </th>
+                <th>
+                    Usuário
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdLogSistema)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataErro)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoLog)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NomeController)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NomeAction)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario.UserName)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.IdLogSistema" class="btn btn-info">Detalhes</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.JsonInformacao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoLog)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NomeController)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NomeAction)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.JsonInformacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoLog)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NomeController)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NomeAction)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuario.UserName)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.IdLogSistema" class="btn btn-info">Detalhes</a>
-            </td>
-        </tr>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
-    </tbody>
-</table>
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Anterior
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Próximo
+</a>

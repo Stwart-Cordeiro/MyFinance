@@ -1,60 +1,99 @@
-﻿@model IEnumerable<Entities.Entities.Contas>
+﻿@model MyFinances.ViewModels.PaginatedList<Entities.Entities.Contas>
 
 @{
     ViewData["Title"] = "Lista";
 }
 
-<h1>Lista</h1>
+<div class="form-row">
+    <div class="col-md-12">
+        <h1>Lista</h1>
+    </div>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Nova Conta</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoDespesas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <div class="col-md-12">
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Nova Conta</a>
+        </p>
+    </div>
+
+    <div class="col-md-5">
+        <form asp-action="Index" method="get">
+            <div class="input-group mb-3">
+                @Html.TextBox("SearchString", @ViewData["CurrentFilter"], new { @class = "form-control", @placeholder = "Encontrar por nome", @arialabel = "Encontrar por nome", @ariadescribedby = "button-addon2" })
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Procurar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <table class="table col-md-12">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TipoDespesas)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Usuario.UserName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdConta" class="btn btn-warning">Editar</a>
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.IdConta" class="btn btn-info">Detalhes</a>
-                </td>
-                <td>
-                    <a asp-action="Delete" asp-route-id="@item.IdConta" class="btn btn-danger">Deletar</a>
-                </td>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Nome</a>                    
+                </th>
+                <th>
+                    Status
+                </th>
+                <th>
+                    Tipo Despesas
+                </th>
+                <th>
+                    Usuário
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoDespesas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario.UserName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IdConta" class="btn btn-warning">Editar</a>
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.IdConta" class="btn btn-info">Detalhes</a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.IdConta" class="btn btn-danger">Deletar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Anterior
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Próximo
+</a>

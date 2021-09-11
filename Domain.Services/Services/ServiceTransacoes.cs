@@ -4,7 +4,6 @@ using CrossCutting;
 using Domain.Core.Interfaces.Repositorys;
 using Domain.Core.Interfaces.Services;
 using Entities.Entities;
-using Entities.Entities.Enums;
 
 namespace Domain.Services.Services
 {
@@ -31,7 +30,7 @@ namespace Domain.Services.Services
             return null;
         }
 
-        public Transacoes GetById(string id)
+        public new Transacoes GetById(string id)
         {
             try
             {
@@ -49,7 +48,7 @@ namespace Domain.Services.Services
         {
             try
             {
-                return _repositoryTransacoes.GetAll(userId);
+                return _repositoryTransacoes.GetAllLimite10(userId);
             }
             catch (Exception erro)
             {
@@ -92,6 +91,20 @@ namespace Domain.Services.Services
             try
             {
                 return _repositoryTransacoes.ExtratoReceitas(userId);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
+        }
+
+        public IEnumerable<Transacoes> GetSearch(string search, string userId)
+        {
+            try
+            {
+                return _repositoryTransacoes.GetSearch(search,userId);
             }
             catch (Exception erro)
             {
