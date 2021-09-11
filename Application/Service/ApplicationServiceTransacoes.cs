@@ -100,6 +100,11 @@ namespace Application.Service
             _serviceTransacoes.Dispose();
         }
 
-        
+        public IEnumerable<Transacoes> GetSearch(string search, string userId)
+        {
+            var lista = _serviceTransacoes.GetSearch(search, userId);
+            Erro = _serviceTransacoes.Erro;
+            return lista;
+        }
     }
 }

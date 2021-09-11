@@ -9,6 +9,7 @@ using Entities.Entities.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using MyFinances.ViewModels;
 
 namespace MyFinances.Controllers
 {
@@ -17,7 +18,7 @@ namespace MyFinances.Controllers
     {
 
         private readonly IApplicationServicePlanoConta _planoConta;
-        private readonly UserManager<Usuario> _userManager;
+        private new readonly UserManager<Usuario> _userManager;
 
         public PlanoContasController(IApplicationServicePlanoConta planoConta, UserManager<Usuario> userManager, ILogger<PlanoContasController> logger, IApplicationServiceLogSistema logSistema)
         : base(logger, userManager, logSistema)
@@ -28,18 +29,45 @@ namespace MyFinances.Controllers
 
 
         // GET: PlanoContas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
             var usuario = await _userManager.GetUserAsync(User);
 
             var planoConta = _planoConta.GetAll(usuario.Id);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                planoConta = _planoConta.GetSearch(searchString, usuario.Id);
+            }
+
+            planoConta = sortOrder switch
+            {
+                "name_desc" => planoConta.OrderByDescending(x => x.Nome),
+                _ => planoConta.OrderBy(x => x.Nome),
+            };
+
+            var pageSize = 10;
 
             if (_planoConta.Erro.Numero != Erro.Tipo.SemErro)
             {
                 await LogSistemaTask(EnumTipoLog.Erro, _planoConta.Erro.Mensagem);
             }
 
-            return View(planoConta);
+            return View(PaginatedList<PlanoContas>.Create(planoConta, pageNumber ?? 1, pageSize));
         }
 
         // GET: PlanoContas/Details/5

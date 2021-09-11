@@ -4,38 +4,34 @@
     ViewData["Title"] = "Registrar";
 }
 
-<h1>@ViewData["Title"]</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Finances</title>
+</head>
+<body>
+    <div id="logreg-forms">       
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-signin">
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Criar uma nova conta.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.UserName"></label>
-                <input asp-for="Input.UserName" class="form-control" />
-                <span asp-validation-for="Input.UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Registrar</button>
+            <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Registrar</h1>
+
+            <div asp-validation-summary="All" class="text-danger"></div>         
+
+            <input type="text" asp-for="Input.UserName" id="user-name" class="form-control" placeholder="Nome" required="" autofocus="">
+            <input type="email" asp-for="Input.Email" id="user-email" class="form-control" placeholder="E-mail" required autofocus="">
+            <input type="password" asp-for="Input.Password" id="user-pass" class="form-control" placeholder="Password" required autofocus="">
+            <input type="password" asp-for="Input.ConfirmPassword" id="user-repeatpass" class="form-control" placeholder="Confime password" required autofocus="">
+
+            <button class="btn btn-primary btn-block" type="submit"><i class="fas fa-user-plus"></i> Registrar</button>
+            <a asp-area="./Login"><i class="fas fa-angle-left"></i> Back</a>
         </form>
     </div>
-</div>
+</body>
+</html>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

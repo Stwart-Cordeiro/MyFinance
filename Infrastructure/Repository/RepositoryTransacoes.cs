@@ -38,7 +38,7 @@ namespace Infrastructure.Repository
             return null;
         }
 
-        public Transacoes GetById(string id)
+        public new Transacoes GetById(string id)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace Infrastructure.Repository
                     .Include(t => t.Contas)
                     .Include(t => t.PlanoContas)
                     .Include(t => t.Usuario)
-                    .Where(x => x.UserId == userId).Take(10);
+                    .Where(x => x.UserId == userId).Take(10).OrderByDescending(x => x.DataTransacao);
             }
             catch (Exception erro)
             {
@@ -157,6 +157,24 @@ namespace Infrastructure.Repository
                     };
 
                 return result;
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
+        }
+
+        public IEnumerable<Transacoes> GetSearch(string search, string userId)
+        {
+            try
+            {
+                return _myFinancesContext.Transacao
+                    .Include(t => t.Contas)
+                    .Include(t => t.PlanoContas)
+                    .Include(t => t.Usuario)
+                    .Where(x => x.Descricao.Contains(search) && x.UserId == userId);
             }
             catch (Exception erro)
             {

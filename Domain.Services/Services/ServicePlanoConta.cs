@@ -59,5 +59,19 @@ namespace Domain.Services.Services
 
             return null;
         }
+
+        public IEnumerable<PlanoContas> GetSearch(string search, string userId)
+        {
+            try
+            {
+                return _repositoryPlanoConta.GetSearch(search,userId);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
+        }
     }
 }

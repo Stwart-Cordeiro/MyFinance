@@ -45,7 +45,8 @@ namespace MyFinances.Controllers
                 JsonInformacao = JsonConvert.SerializeObject(objeto),
                 UserId = await RetornarIdUsuarioLogado(),
                 NomeAction = actionName,
-                NomeController = controllerName
+                NomeController = controllerName,
+                DataErro = DateTime.Now
             });
         }
     }

@@ -33,7 +33,7 @@ namespace Infrastructure.Repository
             return null;
         }
 
-        public Contas GetById(string id)
+        public new Contas GetById(string id)
         {
             try
             {
@@ -52,6 +52,20 @@ namespace Infrastructure.Repository
             try
             {
                 return _myFinancesContext.Conta.Where(x => x.UserId == userId && x.Status == EnumStatus.Ativado);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
+        }
+
+        public IEnumerable<Contas> GetSearch(string search, string userId)
+        {
+            try
+            {
+                return _myFinancesContext.Conta.Where(x => x.Nome.Contains(search) && x.UserId == userId);
             }
             catch (Exception erro)
             {
