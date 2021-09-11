@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Entities.Entities.Enums;
 
@@ -27,5 +28,9 @@ namespace Entities.Entities
         [Column(Order = 1)]
         public string UserId { get; set; }
         public virtual Usuario Usuario { get; set; }
+
+        [Display(Name = "Data Erro")]
+        [DataType(DataType.DateTime)]
+        public DateTime DataErro { get; set; }
     }
 }

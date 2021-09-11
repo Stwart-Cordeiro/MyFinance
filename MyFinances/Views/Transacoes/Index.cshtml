@@ -1,77 +1,118 @@
-﻿@model IEnumerable<Entities.Entities.Transacoes>
+﻿@model MyFinances.ViewModels.PaginatedList<Entities.Entities.Transacoes>
 
 @{
     ViewData["Title"] = "Lista";
 }
 
-<h1>Lista</h1>
+<div class="form-row">
+    <div class="col-md-12">
+        <h1>Lista</h1>
+    </div>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Nova Conta</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DataTransacao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TipoDespesas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Valor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contas)
-            </th>
-            <th>
-                Plano de Conta
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataTransacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoDespesas)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Valor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contas.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PlanoContas.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuario.UserName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdTransacoes" class="btn btn-warning">Editar</a>
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.IdTransacoes" class="btn btn-info">Detalhes</a> 
-            </td>
-            <td>
-                <a asp-action="Delete" asp-route-id="@item.IdTransacoes" class="btn btn-danger">Deletar</a>
-            </td>
-        </tr>
+    <div class="col-md-12">
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Nova Transação</a>
+        </p>
+    </div>
+
+    <div class="col-md-5">
+        <form asp-action="Index" method="get">
+            <div class="input-group mb-3">
+                @Html.TextBox("SearchString", @ViewData["CurrentFilter"], new { @class = "form-control", @placeholder = "Encontrar por descrição", @arialabel = "Encontrar por descrição", @ariadescribedby = "button-addon2" })
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Procurar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DataSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Data</a>
+                </th>
+                <th>
+                    Despesas
+                </th>
+                <th>
+                    Valor
+                </th>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DescriSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Descrição</a>
+                </th>
+                <th>
+                    Conta
+                </th>
+                <th>
+                    Plano de Conta
+                </th>
+                <th>
+                    Usuário
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataTransacao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoDespesas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Valor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descricao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contas.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PlanoContas.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario.UserName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IdTransacoes" class="btn btn-warning">Editar</a>
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.IdTransacoes" class="btn btn-info">Detalhes</a>
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.IdTransacoes" class="btn btn-danger">Deletar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
-    </tbody>
-</table>
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Anterior
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Próximo
+</a>

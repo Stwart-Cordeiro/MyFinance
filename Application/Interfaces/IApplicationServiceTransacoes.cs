@@ -16,7 +16,7 @@ namespace Application.Interfaces
         IEnumerable<Transacoes> ExtratoTransacoes(Transacoes transacoes);
         IEnumerable<Dashboard> ExtratoDespesas(string userId);
         IEnumerable<Dashboard> ExtratoReceitas(string userId);
-
+        IEnumerable<Transacoes> GetSearch(string search, string userId);
         void Dispose();
     }
 }

@@ -33,7 +33,7 @@ namespace Infrastructure.Repository
             return null;
         }
 
-        public Contas GetById(string id)
+        public new Contas GetById(string id)
         {
             try
             {

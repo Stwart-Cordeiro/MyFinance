@@ -20,7 +20,7 @@
             <div class="input-group mb-3">
                 @Html.TextBox("SearchString", @ViewData["CurrentFilter"], new { @class = "form-control", @placeholder = "Encontrar por nome", @arialabel = "Encontrar por nome", @ariadescribedby = "button-addon2" })
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Procurar</button>
                 </div>
             </div>
         </form>
@@ -88,15 +88,12 @@
    asp-route-pageNumber="@(Model.PageIndex - 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    class="btn btn-default @prevDisabled">
-    Previous
+    Anterior
 </a>
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(Model.PageIndex + 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
    class="btn btn-default @nextDisabled">
-    Next
+    Próximo
 </a>
-
-
-

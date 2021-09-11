@@ -11,6 +11,7 @@ namespace Domain.Core.Interfaces.Services
         public IEnumerable<Transacoes> ExtratoTransacoes(Transacoes transacoes);
         public IEnumerable<Dashboard> ExtratoDespesas(string userId);
         public IEnumerable<Dashboard> ExtratoReceitas(string userId);
+        public IEnumerable<Transacoes> GetSearch(string search, string userId);
 
     }
 }

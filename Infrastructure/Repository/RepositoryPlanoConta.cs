@@ -61,6 +61,18 @@ namespace Infrastructure.Repository
             return null;
         }
 
-        
+        public IEnumerable<PlanoContas> GetSearch(string search, string userId)
+        {
+            try
+            {
+                return _myFinancesContext.PlanoConta.Where(x => x.Nome.Contains(search) && x.UserId == userId);
+            }
+            catch (Exception erro)
+            {
+                Erro = new Erro(Erro.Tipo.Indefinido, erro.Message);
+            }
+
+            return null;
+        }
     }
 }

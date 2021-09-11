@@ -10,6 +10,7 @@ using Entities.Entities.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using MyFinances.ViewModels;
 
 namespace MyFinances.Controllers
 {
@@ -18,7 +19,7 @@ namespace MyFinances.Controllers
     {
 
         private readonly IApplicationServiceTransacoes _serviceTransacoes;
-        private readonly UserManager<Usuario> _userManager;
+        private new readonly UserManager<Usuario> _userManager;
         private readonly IApplicationServicePlanoConta _servicePlanoConta;
         private readonly IApplicationServiceConta _serviceConta;
 
@@ -32,18 +33,48 @@ namespace MyFinances.Controllers
         }
 
         // GET: Transações
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["DescriSortParm"] = string.IsNullOrEmpty(sortOrder) ? "descri_desc" : "";
+            ViewData["DataSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
             var usuario = await _userManager.GetUserAsync(User);
 
             var transacao = _serviceTransacoes.GetAll(usuario.Id);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                transacao = _serviceTransacoes.GetSearch(searchString, usuario.Id);
+            }
+
+            transacao = sortOrder switch
+            {
+                "descri_desc" => transacao.OrderByDescending(x => x.Descricao),
+                "Date" => transacao.OrderBy(x => x.DataTransacao),
+                "date_desc" => transacao.OrderByDescending(x => x.DataTransacao),
+                _ => transacao.OrderByDescending(x => x.DataTransacao),
+            };
+
+            var pageSize = 10;
 
             if (_serviceTransacoes.Erro.Numero != Erro.Tipo.SemErro)
             {
                 await LogSistemaTask(EnumTipoLog.Erro, _serviceTransacoes.Erro.Mensagem);
             }
 
-            return View(transacao);
+            return View(PaginatedList<Transacoes>.Create(transacao, pageNumber ?? 1, pageSize));
         }
 
         // GET: Transações/Details/5
@@ -233,7 +264,7 @@ namespace MyFinances.Controllers
 
             ViewBag.ContaId = new SelectList(_serviceConta.GetAllAtivadas(usuario.Id), "IdConta", "Nome");
             
-            ViewBag.ListaTransacoes = _serviceTransacoes.GetAll(usuario.Id);
+            ViewBag.ListaTransacoes = _serviceTransacoes.GetAllLimite10(usuario.Id);
 
             return View();
         }

@@ -17,7 +17,7 @@ namespace MyFinances.Controllers
     public class ContasController : BaseController
     {
         private readonly IApplicationServiceConta _service;
-        private readonly UserManager<Usuario> _userManager;
+        private new readonly UserManager<Usuario> _userManager;
 
         public ContasController(IApplicationServiceConta service, UserManager<Usuario> userManager, ILogger<ContasController> logger, IApplicationServiceLogSistema logSistema)
             : base(logger, userManager, logSistema)
@@ -59,7 +59,7 @@ namespace MyFinances.Controllers
                 _ => contas.OrderBy(x => x.Nome),
             };
 
-            var pageSize = 5;
+            var pageSize = 10;
 
             if (_service.Erro.Numero != Erro.Tipo.SemErro)
             {
