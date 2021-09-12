@@ -60,6 +60,6 @@ namespace Entities.Entities
 
         [Display(Name = "Data Final")]
         [NotMapped]
-        public DateTime DataFinal { get; set; }
+        public DateTime DataFinal { get; set; }       
     }
 }
