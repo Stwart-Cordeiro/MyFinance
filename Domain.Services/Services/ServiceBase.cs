@@ -23,6 +23,11 @@ namespace Domain.Services.Services
             try
             {
                 _repository.Add(entity);
+
+                if (_repository.Erro.Numero != Erro.Tipo.SemErro)
+                {
+                    Erro = new Erro(Erro.Tipo.Indefinido, _repository.Erro.Mensagem);
+                }
             }
             catch (Exception erro)
             {
@@ -35,6 +40,12 @@ namespace Domain.Services.Services
             try
             {
                 _repository.Update(entity);
+
+                if (_repository.Erro.Numero != Erro.Tipo.SemErro)
+                {
+                    Erro = new Erro(Erro.Tipo.Indefinido, _repository.Erro.Mensagem);
+                }
+
             }
             catch (Exception erro)
             {
@@ -47,6 +58,12 @@ namespace Domain.Services.Services
             try
             {
                 _repository.Delete(entity);
+
+                if (_repository.Erro.Numero != Erro.Tipo.SemErro)
+                {
+                    Erro = new Erro(Erro.Tipo.Indefinido, _repository.Erro.Mensagem);
+                }
+
             }
             catch (Exception erro)
             {

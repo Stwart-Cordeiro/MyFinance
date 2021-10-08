@@ -1,4 +1,6 @@
-﻿namespace CrossCutting
+﻿using System;
+
+namespace CrossCutting
 {
     public class Erro
     {
@@ -13,8 +15,15 @@
             Mensagem = mensagem;
         }
 
+        public Erro(Tipo numero, Exception mensagem)
+        {
+            Numero = numero;
+            _Mensagem = mensagem;
+        }
+
         public Tipo Numero { get; set; }
         public string Mensagem { get; set; }
+        public Exception _Mensagem { get; set; }
 
         public enum Tipo
         {

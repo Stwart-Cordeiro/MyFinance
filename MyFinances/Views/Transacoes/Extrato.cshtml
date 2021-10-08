@@ -3,6 +3,11 @@
 @model Entities.Entities.Transacoes
 @{
     ViewData["Title"] = "Extrato";
+
+
+    var TotalReceitas = 0.0M;
+    var TotalDespesas = 0.0M;
+    var Saldo = 0.0M;
 }
 
 <h1>Extrato</h1>
@@ -26,6 +31,7 @@
                 <div class="radio"><label><input type="radio" asp-for="TipoDespesas" value="@EnumTipoDespesas.Despesas" />Despesas</label></div>
             </div>
             <div class="form-group">
+
                 <label asp-for="ContaId" class="control-label"></label>
                 <select asp-for="ContaId" class="form-control" asp-items="ViewBag.ContaId"></select>
             </div>
@@ -37,60 +43,94 @@
 </div>
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DataTransacao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TipoDespesas)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Valor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Descricao)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Contas)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PlanoContas)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Usuario)
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DataTransacao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoDespesas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Valor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Contas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlanoContas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Usuario)
+            </th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in (IEnumerable<Transacoes>)ViewBag.ListaTransacoes) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataTransacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TipoDespesas)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Valor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descricao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contas.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PlanoContas.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Usuario.UserName)
-            </td>
-            <td>
-                <a asp-action="ExtratoEdit" asp-route-id="@item.IdTransacoes" class="btn btn-warning">Editar</a>
-            </td>
-        </tr>
-    }
+        @{
+            foreach (var item in (IEnumerable<Transacoes>)ViewBag.ListaTransacoes)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataTransacao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoDespesas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Valor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descricao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contas.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PlanoContas.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario.UserName)
+                    </td>
+                    <td>
+                        <a asp-action="ExtratoEdit" asp-route-id="@item.IdTransacoes" class="btn btn-warning">Editar</a>
+                    </td>
+                </tr>
+
+                if (item.TipoDespesas == EnumTipoDespesas.Despesas)
+                {
+                    TotalDespesas += item.Valor;
+                }
+                else
+                {
+                    TotalReceitas += item.Valor;
+                }
+
+            }
+
+            Saldo = TotalReceitas - TotalDespesas;
+        }
     </tbody>
 </table>
-
+<div class="row">
+    <div class="col align-self-end">
+        @{
+            if (Saldo < 0)
+            {
+                <h3>
+                    <strong>Saldo: </strong>
+                    <span class="badge rounded-pill bg-danger">R$ @Saldo.ToString().Replace(".", ",")</span>
+                </h3>
+            }
+            else
+            {
+                <h3>
+                    <strong>Saldo: </strong>
+                    <span class="badge rounded-pill bg-success">R$ @Saldo.ToString().Replace(".", ",")</span>
+                </h3>
+            }
+        }
+    </div>
+</div>

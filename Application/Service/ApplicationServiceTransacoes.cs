@@ -69,11 +69,11 @@ namespace Application.Service
 
         public IEnumerable<Transacoes> GetAllLimite10(string userId)
         {
-            var lista = _serviceTransacoes.GetAllLimite10(userId);
+            var lista = _serviceTransacoes.GetAllLimite10(userId);          
             Erro = _serviceTransacoes.Erro;
             return lista;
         }
-
+        
         public IEnumerable<Transacoes> ExtratoTransacoes(Transacoes transacoes)
         {
             var lista = _serviceTransacoes.ExtratoTransacoes(transacoes);

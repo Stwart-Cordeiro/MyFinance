@@ -51,7 +51,7 @@ namespace Infrastructure.Repository
         {
             try
             {
-                return _myFinancesContext.PlanoConta.Where(x => x.UserId == userId && x.Status == EnumStatus.Ativado);
+                return _myFinancesContext.PlanoConta.Where(x => x.UserId == userId && x.Status == EnumStatus.Ativado).OrderBy(x => x.Nome);
             }
             catch (Exception erro)
             {

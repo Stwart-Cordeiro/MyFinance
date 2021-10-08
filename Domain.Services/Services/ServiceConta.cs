@@ -30,7 +30,7 @@ namespace Domain.Services.Services
             return null;
         }
 
-        public Contas GetById(string id)
+        public new Contas GetById(string id)
         {
             try
             {

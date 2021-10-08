@@ -227,6 +227,7 @@ namespace MyFinances.Controllers
                 if (_service.Erro.Numero != Erro.Tipo.SemErro)
                 {
                     await LogSistemaTask(EnumTipoLog.Erro, _service.Erro.Mensagem);
+                                       
                 }
                 else
                 {
