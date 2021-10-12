@@ -56,7 +56,7 @@ namespace Entities.Notifications
         public bool ValidarPropriedadeDecimal(decimal valor, string nomePropriedade)
         {
 
-            if (valor < 1 || string.IsNullOrWhiteSpace(nomePropriedade))
+            if (valor <= 0 || string.IsNullOrWhiteSpace(nomePropriedade))
             {
                 Notificacoes.Add(new Notifies
                 {
