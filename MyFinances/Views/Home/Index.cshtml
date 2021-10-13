@@ -2,7 +2,63 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-sm ">
+                
+                <a asp-controller="Contas" asp-action="Index">
+                    <img src="~/Imagens/conta.png" width="150" height="150" alt="" />
+                    <span>Conta</span>
+                </a>
+               
+               
+            </div>
+            <div class="col-sm">
+                
+                    <a asp-controller="PlanoContas" asp-action="Index">
+                        <img src="~/Imagens/planocontas.png" width="150" height="150" alt="" />
+                    </a>
+                
+                <span>Plano de Contas</span>
+            </div>
+            <div class="col-sm">
+               
+                    <a asp-controller="Transacaes" asp-action="Index">
+                        <img src="~/Imagens/registrar_transacao.png" width="150" height="150" alt="" />
+                    </a>
+                
+                <span>Registrar Transacao</span>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="row" style="text-align:center;">
+        <div class="col-lg-4">
+            <div class="row">
+                <a asp-controller="Transacaes" asp-action="Extrato">
+                    <img src="~/Imagens/extrato.png" width="150" height="150" alt="" />
+                </a>
+            </div>
+            <span>Extrato</span>
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                <a asp-controller="Transacaes" asp-action="DashboardExtratos">
+                    <img src="~/Imagens/dashboard.png" width="150" height="150" alt="" />
+                </a>
+            </div>
+            <span>Dashboard</span>
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                <a asp-controller="LogSistemas" asp-action="Index">
+                    <img src="~/Imagens/ajuda.png" width="150" height="150" alt="" />
+                </a>
+            </div>
+            <span>Log</span>
+        </div>
+    </div>
+}

@@ -15,10 +15,17 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MyFinances": {
+    "PRD_IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Production"
+      }
+    },
+    "Dev_MyFinances": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "applicationUrl": "http://localhost:46862",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
