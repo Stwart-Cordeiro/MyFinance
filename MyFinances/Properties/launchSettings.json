@@ -22,13 +22,13 @@
         "ASPNETCORE_ENVIRONMENT": "Production"
       }
     },
-    "Dev_MyFinances": {
+    "Dev_MyFinances": {   
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:46862",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
-    }
+    } 
   }
 }

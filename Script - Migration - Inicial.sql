@@ -1,0 +1,177 @@
+CREATE TABLE IF NOT EXISTS `__EFMigrationsHistory` (
+    `MigrationId` varchar(95) NOT NULL,
+    `ProductVersion` varchar(32) NOT NULL,
+    CONSTRAINT `PK___EFMigrationsHistory` PRIMARY KEY (`MigrationId`)
+);
+
+CREATE TABLE `AspNetRoles` (
+    `Id` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `Name` varchar(256) CHARACTER SET utf8mb4 NULL,
+    `NormalizedName` varchar(256) CHARACTER SET utf8mb4 NULL,
+    `ConcurrencyStamp` longtext CHARACTER SET utf8mb4 NULL,
+    CONSTRAINT `PK_AspNetRoles` PRIMARY KEY (`Id`)
+);
+
+CREATE TABLE `AspNetUsers` (
+    `Id` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `UserName` varchar(256) CHARACTER SET utf8mb4 NULL,
+    `NormalizedUserName` varchar(256) CHARACTER SET utf8mb4 NULL,
+    `Email` varchar(256) CHARACTER SET utf8mb4 NULL,
+    `NormalizedEmail` varchar(256) CHARACTER SET utf8mb4 NULL,
+    `EmailConfirmed` tinyint(1) NOT NULL,
+    `PasswordHash` longtext CHARACTER SET utf8mb4 NULL,
+    `SecurityStamp` longtext CHARACTER SET utf8mb4 NULL,
+    `ConcurrencyStamp` longtext CHARACTER SET utf8mb4 NULL,
+    `PhoneNumber` longtext CHARACTER SET utf8mb4 NULL,
+    `PhoneNumberConfirmed` tinyint(1) NOT NULL,
+    `TwoFactorEnabled` tinyint(1) NOT NULL,
+    `LockoutEnd` datetime(6) NULL,
+    `LockoutEnabled` tinyint(1) NOT NULL,
+    `AccessFailedCount` int NOT NULL,
+    CONSTRAINT `PK_AspNetUsers` PRIMARY KEY (`Id`)
+);
+
+CREATE TABLE `AspNetRoleClaims` (
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `RoleId` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `ClaimType` longtext CHARACTER SET utf8mb4 NULL,
+    `ClaimValue` longtext CHARACTER SET utf8mb4 NULL,
+    CONSTRAINT `PK_AspNetRoleClaims` PRIMARY KEY (`Id`),
+    CONSTRAINT `FK_AspNetRoleClaims_AspNetRoles_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `AspNetRoles` (`Id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `AspNetUserClaims` (
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `UserId` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `ClaimType` longtext CHARACTER SET utf8mb4 NULL,
+    `ClaimValue` longtext CHARACTER SET utf8mb4 NULL,
+    CONSTRAINT `PK_AspNetUserClaims` PRIMARY KEY (`Id`),
+    CONSTRAINT `FK_AspNetUserClaims_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `AspNetUserLogins` (
+    `LoginProvider` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
+    `ProviderKey` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
+    `ProviderDisplayName` longtext CHARACTER SET utf8mb4 NULL,
+    `UserId` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    CONSTRAINT `PK_AspNetUserLogins` PRIMARY KEY (`LoginProvider`, `ProviderKey`),
+    CONSTRAINT `FK_AspNetUserLogins_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `AspNetUserRoles` (
+    `UserId` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `RoleId` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    CONSTRAINT `PK_AspNetUserRoles` PRIMARY KEY (`UserId`, `RoleId`),
+    CONSTRAINT `FK_AspNetUserRoles_AspNetRoles_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `AspNetRoles` (`Id`) ON DELETE CASCADE,
+    CONSTRAINT `FK_AspNetUserRoles_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `AspNetUserTokens` (
+    `UserId` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `LoginProvider` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
+    `Name` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
+    `Value` longtext CHARACTER SET utf8mb4 NULL,
+    CONSTRAINT `PK_AspNetUserTokens` PRIMARY KEY (`UserId`, `LoginProvider`, `Name`),
+    CONSTRAINT `FK_AspNetUserTokens_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE CASCADE
+);
+
+CREATE INDEX `IX_AspNetRoleClaims_RoleId` ON `AspNetRoleClaims` (`RoleId`);
+
+CREATE UNIQUE INDEX `RoleNameIndex` ON `AspNetRoles` (`NormalizedName`);
+
+CREATE INDEX `IX_AspNetUserClaims_UserId` ON `AspNetUserClaims` (`UserId`);
+
+CREATE INDEX `IX_AspNetUserLogins_UserId` ON `AspNetUserLogins` (`UserId`);
+
+CREATE INDEX `IX_AspNetUserRoles_RoleId` ON `AspNetUserRoles` (`RoleId`);
+
+CREATE INDEX `EmailIndex` ON `AspNetUsers` (`NormalizedEmail`);
+
+CREATE UNIQUE INDEX `UserNameIndex` ON `AspNetUsers` (`NormalizedUserName`);
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20210430004458_Inicial', '3.1.15');
+
+CREATE TABLE `Conta` (
+    `IdConta` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `Nome` varchar(50) NULL,
+    `Status` int NOT NULL,
+    `TipoDespesas` int NOT NULL,
+    `UserId` varchar(255) CHARACTER SET utf8mb4 NULL,
+    `DataCadastro` datetime(6) NOT NULL,
+    `DataAlteracao` datetime(6) NOT NULL,
+    CONSTRAINT `PK_Conta` PRIMARY KEY (`IdConta`),
+    CONSTRAINT `FK_Conta_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE RESTRICT
+);
+
+CREATE TABLE `LogSistemas` (
+    `IdLogSistema` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `JsonInformacao` longtext CHARACTER SET utf8mb4 NULL,
+    `TipoLog` int NOT NULL,
+    `NomeController` longtext CHARACTER SET utf8mb4 NULL,
+    `NomeAction` longtext CHARACTER SET utf8mb4 NULL,
+    `UserId` varchar(255) CHARACTER SET utf8mb4 NULL,
+    CONSTRAINT `PK_LogSistemas` PRIMARY KEY (`IdLogSistema`),
+    CONSTRAINT `FK_LogSistemas_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE RESTRICT
+);
+
+CREATE INDEX `IX_Conta_UserId` ON `Conta` (`UserId`);
+
+CREATE INDEX `IX_LogSistemas_UserId` ON `LogSistemas` (`UserId`);
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20210526211451_Ajustes-26-05', '3.1.15');
+
+ALTER TABLE `Conta` ADD `Valor` decimal(9,2) NOT NULL DEFAULT 0.0;
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20210614172038_Ajuste-14-05', '3.1.15');
+
+CREATE TABLE `PlanoConta` (
+    `IdPlanoConta` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `Nome` varchar(50) NULL,
+    `Status` int NOT NULL,
+    `TipoDespesas` int NOT NULL,
+    `UserId` varchar(255) CHARACTER SET utf8mb4 NULL,
+    `DataCadastro` datetime(6) NOT NULL,
+    `DataAlteracao` datetime(6) NOT NULL,
+    CONSTRAINT `PK_PlanoConta` PRIMARY KEY (`IdPlanoConta`),
+    CONSTRAINT `FK_PlanoConta_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE RESTRICT
+);
+
+CREATE INDEX `IX_PlanoConta_UserId` ON `PlanoConta` (`UserId`);
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20210614191016_Ajuste-14-05-v1', '3.1.15');
+
+CREATE TABLE `Transacao` (
+    `IdTransacoes` varchar(255) CHARACTER SET utf8mb4 NOT NULL,
+    `DataTransacao` datetime(6) NOT NULL,
+    `TipoDespesas` int NOT NULL,
+    `Valor` decimal(9,2) NOT NULL,
+    `Descricao` varchar(200) NULL,
+    `ContaId` varchar(255) CHARACTER SET utf8mb4 NULL,
+    `PlanoContaId` varchar(255) CHARACTER SET utf8mb4 NULL,
+    `UserId` varchar(255) CHARACTER SET utf8mb4 NULL,
+    `DataCadastro` datetime(6) NOT NULL,
+    `DataAlteracao` datetime(6) NOT NULL,
+    CONSTRAINT `PK_Transacao` PRIMARY KEY (`IdTransacoes`),
+    CONSTRAINT `FK_Transacao_Conta_ContaId` FOREIGN KEY (`ContaId`) REFERENCES `Conta` (`IdConta`) ON DELETE RESTRICT,
+    CONSTRAINT `FK_Transacao_PlanoConta_PlanoContaId` FOREIGN KEY (`PlanoContaId`) REFERENCES `PlanoConta` (`IdPlanoConta`) ON DELETE RESTRICT,
+    CONSTRAINT `FK_Transacao_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE RESTRICT
+);
+
+CREATE INDEX `IX_Transacao_ContaId` ON `Transacao` (`ContaId`);
+
+CREATE INDEX `IX_Transacao_PlanoContaId` ON `Transacao` (`PlanoContaId`);
+
+CREATE INDEX `IX_Transacao_UserId` ON `Transacao` (`UserId`);
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20210614222014_Ajuste-14-05-v2', '3.1.15');
+
+ALTER TABLE `Transacao` ADD `Debito` tinyint(1) NOT NULL DEFAULT FALSE;
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20210615224739_Ajuste-15-06', '3.1.15');
+
