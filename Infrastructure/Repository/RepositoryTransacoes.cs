@@ -105,7 +105,7 @@ namespace Infrastructure.Repository
 
 
                 //Conta 
-                result = result.Where(x => x.ContaId == transacoes.ContaId);
+                result = result.Where(x => x.ContaId == transacoes.ContaId).OrderByDescending(x => x.DataTransacao);
 
 
                 return result;

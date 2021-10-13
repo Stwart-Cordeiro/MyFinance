@@ -2,7 +2,77 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <div class="text-center">
+                    <a asp-controller="Contas" asp-action="Index">
+                        <img src="~/Imagens/conta.png" width="150" height="150" alt="" />
+
+                    </a>
+                </div>
+                <div class="text-center">
+                    <span>Conta</span>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="text-center">
+                    <a asp-controller="PlanoContas" asp-action="Index">
+                        <img src="~/Imagens/planocontas.png" width="150" height="150" alt="" />
+                    </a>
+                </div>
+                <div class="text-center">
+                    <span>Plano de Contas</span>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="text-center">
+                    <a asp-controller="Transacoes" asp-action="Index">
+                        <img src="~/Imagens/registrar_transacao.png" width="150" height="150" alt="" />
+                    </a>
+                </div>
+                <div class="text-center">
+                    <span>Registrar Transacao</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <div class="text-center">
+                    <a asp-controller="Transacoes" asp-action="Extrato">
+                        <img src="~/Imagens/extrato.png" width="150" height="150" alt="" />
+                    </a>
+                </div>
+                <div class="text-center">
+                    <span>Extrato</span>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="text-center">
+                    <a asp-controller="Transacoes" asp-action="DashboardExtratos">
+                        <img src="~/Imagens/dashboard.png" width="150" height="150" alt="" />
+                    </a>
+                </div>
+                <div class="text-center">
+                    <span>Dashboard</span>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="text-center">
+                    <a asp-controller="LogSistemas" asp-action="Index">
+                        <img src="~/Imagens/ajuda.png" width="150" height="150" alt="" />
+                    </a>
+                </div>
+                <div class="text-center">
+                    <span>Log</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
